@@ -15,4 +15,9 @@ public class User {
     private String email;
     private Address address;
 
+    // work info
+    private UserStatus status;
+    private UserPrivilege privilege;
+    private BigDecimal salary;
+
 }
