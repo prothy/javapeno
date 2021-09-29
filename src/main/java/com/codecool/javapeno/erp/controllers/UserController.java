@@ -30,8 +30,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable UUID id) {
+    /**
+     *
+     * @param id user id
+     * @return the selected user data
+     */
+    @GetMapping({"/user/{id}"})
+    public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
