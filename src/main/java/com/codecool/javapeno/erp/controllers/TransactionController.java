@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/transaction-service")
@@ -24,5 +25,10 @@ public class TransactionController {
     @GetMapping("/monthly-report/{month}/{year}")
     public List<Transaction> getMonthlyReport(@PathVariable int month, @PathVariable int year) {
         return transactionService.getTransactionsByMonthAndYear(month, year);
+    }
+
+    @GetMapping("/user-report/{year}/{userId}")
+    public List<Transaction> getReportsByYearAndUserId(@PathVariable int year, @PathVariable UUID userId) {
+        return transactionService.getTransactionsByYearAndUserId(year, userId);
     }
 }
