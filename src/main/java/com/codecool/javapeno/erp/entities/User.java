@@ -3,6 +3,7 @@ package com.codecool.javapeno.erp.entities;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,10 +17,13 @@ public class User {
     @GenericGenerator(name="system-uuid", strategy = "uuid")
     private UUID id;
 
+    @NotNull
     private LocalDate createdDate;
+    @NotNull
     private LocalDate updatedDate;
 
     // personal info
+    @NotNull
     private String name;
     private String phoneNumber;
     private String email;
@@ -29,7 +33,11 @@ public class User {
     private Address address;
 
     // work info
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
+    @NotNull
+    @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
     private BigDecimal salary;
 }
