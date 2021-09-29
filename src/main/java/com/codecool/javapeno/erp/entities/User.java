@@ -46,7 +46,6 @@ public class User {
     private UserPrivilege privilege;
 
     @Column
-    @Enumerated(EnumType.STRING)
     private BigDecimal salary;
 
     public UUID getId() {
