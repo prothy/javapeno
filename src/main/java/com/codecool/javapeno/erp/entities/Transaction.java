@@ -27,4 +27,6 @@ public class Transaction {
 
     @NotNull
     private String accountNumTo;
+
+    private UUID userId;
 }
