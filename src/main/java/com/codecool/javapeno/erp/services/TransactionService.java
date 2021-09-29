@@ -21,6 +21,6 @@ public class TransactionService {
     }
 
     public List<Transaction> getTransactionsByMonthAndYear(int month, int year) {
-        return null;
+        return transactionRepository.findAllByTimestamp(month, year);
     }
 }
