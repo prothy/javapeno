@@ -23,6 +23,6 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public User getUserById(@PathVariable UUID id) {
-        return null;
+        return userService.getUserById(id);
     }
 }

@@ -17,7 +17,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    private User getUserById(UUID userId) {
+    public User getUserById(UUID userId) {
         return (User) userRepository.findAllById(Collections.singleton(userId));
     }
 }
