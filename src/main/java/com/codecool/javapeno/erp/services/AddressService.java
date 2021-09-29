@@ -31,4 +31,17 @@ public class AddressService {
                 .body(address);
     }
 
+    public ResponseEntity<String> updateAddressById(UUID addressId, Address updatedAddress) {
+        Optional<Address> address = addressRepository.findById(addressId);
+        if (address.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Address is not found");
+        }
+        addressRepository.save(updatedAddress);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Address data updated");
+    }
+
 }
