@@ -23,6 +23,6 @@ public class TransactionController {
 
     @GetMapping("/monthly-report/{month}/{year}")
     public List<Transaction> getMonthlyReport(@PathVariable int month, @PathVariable int year) {
-        return null;
+        return transactionService.getTransactionsByMonthAndYear(month, year);
     }
 }
