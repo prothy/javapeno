@@ -1,6 +1,7 @@
 package com.codecool.javapeno.erp.services;
 
 import com.codecool.javapeno.erp.entities.User;
+import com.codecool.javapeno.erp.entities.UserStatus;
 import com.codecool.javapeno.erp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,9 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void deleteUser(User user) {
-        userRepository.delete(user);
+    public void inactivateUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
+        user.setStatus(UserStatus.DELETED);
     }
 }
