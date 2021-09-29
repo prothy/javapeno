@@ -33,7 +33,7 @@ public class UserController {
     /**
      *
      * @param id user id
-     * @return the selected user data
+     * @return the selected user's data
      */
     @GetMapping({"/user/{id}"})
     public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
