@@ -2,9 +2,7 @@ package com.codecool.javapeno.erp.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -21,5 +19,9 @@ public class Holiday {
 
     @NotNull
     private LocalDate dateTo;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
 
