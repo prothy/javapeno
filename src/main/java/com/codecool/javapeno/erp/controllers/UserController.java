@@ -5,8 +5,10 @@ import com.codecool.javapeno.erp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
-@RequestMapping(path = "/api/user")
+@RequestMapping("api/user-service")
 public class UserController {
 
     private final UserService userService;
@@ -14,6 +16,11 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/user/{id}")
+    public User getUserById(@PathVariable UUID id) {
+        return userService.getUserById(id);
     }
 
     @PostMapping("/add")
