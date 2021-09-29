@@ -31,4 +31,9 @@ public class UserController {
     @RequestMapping("/delete/{id}")
     public void inactivateUser(@PathVariable UUID id){userService.inactivateUser(id);}
 
+    @PutMapping(path = "/modify")
+    public void updateStudent(@RequestBody User user) {
+        userService.updateUser(user);
+    }
+
 }
