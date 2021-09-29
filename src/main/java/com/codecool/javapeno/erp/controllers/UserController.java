@@ -32,7 +32,7 @@ public class UserController {
     public void inactivateUser(@PathVariable UUID id){userService.inactivateUser(id);}
 
     @PutMapping(path = "/modify")
-    public void updateStudent(@RequestBody User user) {
+    public void updateUser(@RequestBody User user) {
         userService.updateUser(user);
     }
 
