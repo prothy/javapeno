@@ -25,7 +25,7 @@ public class TransactionService {
         return transactionRepository.findAllByTimestamp(month, year);
     }
 
-    public List<Transaction> getTransactionsByMonthYearAndUserId(int month, int year, UUID userId) {
-        return transactionRepository.findAllByTimestampAndUserId(month, year, userId);
+    public List<Transaction> getTransactionsByYearAndUserId(int year, UUID userId) {
+        return transactionRepository.findAllByYearAndUserId(year, userId);
     }
 }
