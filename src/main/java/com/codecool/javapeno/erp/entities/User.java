@@ -58,10 +58,6 @@ public class User {
     @Column
     private BigDecimal salary;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "holiday_id", referencedColumnName = "id")
-    private Holiday holiday;
-
     public UUID getId() {
         return id;
     }
