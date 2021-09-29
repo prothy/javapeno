@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class TransactionService {
@@ -22,5 +23,9 @@ public class TransactionService {
 
     public List<Transaction> getTransactionsByMonthAndYear(int month, int year) {
         return transactionRepository.findAllByTimestamp(month, year);
+    }
+
+    public List<Transaction> getTransactionsByMonthYearAndUserId(int month, int year, UUID userId) {
+        return transactionRepository.findAllByTimestampAndUserId(month, year, userId);
     }
 }
