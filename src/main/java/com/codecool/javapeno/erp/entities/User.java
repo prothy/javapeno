@@ -1,29 +1,36 @@
 package com.codecool.javapeno.erp.entities;
 
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Column
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private UUID id;
 
     @Column
     @CreationTimestamp
-    private LocalDate createdDate;
+    @NotNull
+    private Timestamp createdDate;
 
     @Column
-    private LocalDate updatedDate;
+    private Timestamp updatedDate;
 
     // personal info
     @Column
+    @NotNull
     private String name;
 
     @Column
@@ -33,15 +40,18 @@ public class User {
     @Email(message = "Email should be valid")
     private String email;
 
-    @Column
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
     // work info
     @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     @Column
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
 
@@ -52,11 +62,11 @@ public class User {
         return id;
     }
 
-    public LocalDate getCreatedDate() {
+    public Timestamp getCreatedDate() {
         return createdDate;
     }
 
-    public LocalDate getUpdatedDate() {
+    public Timestamp getUpdatedDate() {
         return updatedDate;
     }
 
@@ -88,7 +98,7 @@ public class User {
         return salary;
     }
 
-    public void setUpdatedDate(LocalDate updatedDate) {
+    public void setUpdatedDate(Timestamp updatedDate) {
         this.updatedDate = updatedDate;
     }
 
