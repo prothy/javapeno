@@ -28,6 +28,7 @@ public class UserController {
         userService.addNewUser(user);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteUser(User user){userService.deleteUser(user);}
+    @RequestMapping("/delete/{id}")
+    public void inactivateUser(@PathVariable UUID id){userService.inactivateUser(id);}
+
 }
