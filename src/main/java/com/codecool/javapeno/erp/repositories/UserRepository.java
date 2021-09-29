@@ -1,6 +1,5 @@
 package com.codecool.javapeno.erp.repositories;
 
-import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,7 +11,7 @@ import java.util.UUID;
 @Repository("userRepository")
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    UserTransactionModel  findFirstByTransactions(@Param("id") UUID id);
+    UserTransactionModel findFirstByTransactions(@Param("id") UUID id);
     //findAllUserTransactionById(@Param("id") UUID id);
 
 }
