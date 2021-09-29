@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -40,4 +41,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
     private BigDecimal salary;
+
+    @OneToMany(mappedBy="transactions")
+    Set<Transaction> transactions;
 }

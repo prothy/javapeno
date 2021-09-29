@@ -12,7 +12,8 @@ import java.util.UUID;
 @Repository("transactionRepository")
 public interface TransactionRepository extends JpaRepository<Transaction, UUID> {
 
-    @Query("SELECT T.TIMESTAMP, T.TARGET, T.AMOUNT FROM TRANSACTION T INNER JOIN USERTRANSACTIONS UT WHERE UT.ID = :id ORDER BY T.TIMESTAMP DESC")
-    UserTransactionModel findAllUserTransactionById(@Param("id") UUID id);
+    //@Query("SELECT T.TIMESTAMP, T.TARGET, T.AMOUNT FROM TRANSACTION T INNER JOIN USERTRANSACTIONS UT WHERE UT.ID = :id ORDER BY T.TIMESTAMP DESC")
+    //UserTransactionModel findAllUserTransactionById(@Param("id") UUID id);
 
+    UserTransactionModel findAllUserTransactionById(@Param("id") UUID id);
 }
