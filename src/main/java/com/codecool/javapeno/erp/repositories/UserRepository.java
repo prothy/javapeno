@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository("userRepository")
+@Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 }
