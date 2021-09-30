@@ -20,8 +20,8 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/get-user-transactions")
-    public List<UserTransactionModel> getUserTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+    @GetMapping("/all")
+    public List<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
         if (userId == null) return null;
 
         return transactionService.getUserTransactionsById(userId);
