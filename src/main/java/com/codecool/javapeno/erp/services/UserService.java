@@ -47,6 +47,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
         user.setStatus(UserStatus.DELETED);
+        userRepository.save(user);
     }
 
     public void updateUser(User updatedUser) {
