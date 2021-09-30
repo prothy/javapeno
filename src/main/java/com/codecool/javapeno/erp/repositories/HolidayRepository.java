@@ -1,7 +1,6 @@
 package com.codecool.javapeno.erp.repositories;
 
 import com.codecool.javapeno.erp.entities.Holiday;
-import com.codecool.javapeno.erp.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
