@@ -1,13 +1,11 @@
 package com.codecool.javapeno.erp.controllers;
 
+import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,22 +21,23 @@ public class TransactionController {
     }
 
     @GetMapping("/get-user-transactions")
-    public List<UserTransactionModel> getUserTransaction(HttpServletRequest request) {
-        String stringId = request.getParameter("id");
+    public List<UserTransactionModel> getUserTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+        if (userId == null) return null;
 
-        if (transactionService.isIdNull(stringId)) return null;
-
-        UUID id = UUID.fromString(stringId);
-        return transactionService.getUserTransactionsById(id);
+        return transactionService.getUserTransactionsById(userId);
     }
 
     @GetMapping("/get-users-top-transaction")
-    public UserTransactionModel getUsersTopTransaction(HttpServletRequest request) {
-        String stringId = request.getParameter("id");
+    public UserTransactionModel getUsersTopTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+        if (userId == null) return null;
 
-        if (transactionService.isIdNull(stringId)) return null;
+        return transactionService.getUsersTopTransactionsById(userId);
+    }
 
-        UUID id = UUID.fromString(stringId);
-        return transactionService.getUsersTopTransactionsById(id);
+    @GetMapping("/report")
+    public List<Transaction> getReports(@RequestParam(value = "year", required = false) Integer year,
+                                        @RequestParam(value = "month", required = false) Integer month) {
+
+        return transactionService.getReports(year, month);
     }
 }

@@ -31,8 +31,14 @@ public class TransactionService {
         return new UserTransactionModel(transactionRepository.findTopByUserIdOrderByTimestampDesc(id));
     }
 
-    public boolean isIdNull(String stringId) {
-        return stringId == null;
+    public List<Transaction> getReports(Integer year, Integer month) {
+        if (year != null && month != null)
+            return transactionRepository.findAllByYearAndMonth(year, month);
+
+        else if (month == null)
+            return transactionRepository.findAllByYear(year);
+
+        return null;
     }
 
     private List<Transaction> getAllTransactionsByUser(UUID id) {
