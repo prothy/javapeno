@@ -17,9 +17,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     Transaction findTopByUserIdOrderByTimestampDesc(@Param("id") UUID id);
 
     @Query("select t from Transaction t where year(t.timestamp) = :year and month(t.timestamp) = :month")
-    List<Transaction> findAllByTimestamp(@Param("month") Integer month, @Param("year") Integer year);
+    List<Transaction> findAllByYearAndMonth(@Param("year") Integer year, @Param("month") Integer month);
 
-    @Query("select t from Transaction t where year(t.timestamp) = :year and t.userId = :userId")
-    List<Transaction> findAllByYearAndUserId(@Param("year") Integer year, @Param("userId") UUID userId);
-
+    @Query("select t from Transaction t where year(t.timestamp) = :year")
+    List<Transaction> findAllByYear(@Param("year") Integer year);
 }
