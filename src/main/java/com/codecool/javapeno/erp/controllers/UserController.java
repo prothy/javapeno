@@ -29,24 +29,26 @@ public class UserController {
 
     /**
      * Returns given user's info
+     *
      * @param id user id
      * @return the selected user's data
      */
     @GetMapping({"/{id}"})
-    public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
+    public User getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
     /**
      * Updates given users
-     * @param id user id
+     *
+     * @param id              user id
      * @param updatedUserData must contain the following information
-     * <ul>
-     *     <li>name</li>
-     *     <li>email (in valid format)</li>
-     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
-     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
-     * </ul>
+     *                        <ul>
+     *                            <li>name</li>
+     *                            <li>email (in valid format)</li>
+     *                            <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *                            <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     *                        </ul>
      * @return Updated user
      */
     @PutMapping("/{id}")
@@ -56,6 +58,7 @@ public class UserController {
 
     /**
      * Sets given user as inactive in DB
+     *
      * @param id user id
      */
     @DeleteMapping("/{id}")
@@ -65,14 +68,14 @@ public class UserController {
 
     /**
      * Adds a new user to database
-     * @param user
-     * User object in request body must contain following fields:
-     * <ul>
-     *     <li>name</li>
-     *     <li>email (in valid format)</li>
-     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
-     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
-     * </ul>
+     *
+     * @param user User object in request body must contain following fields:
+     *             <ul>
+     *                 <li>name</li>
+     *                 <li>email (in valid format)</li>
+     *                 <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *                 <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     *             </ul>
      */
     @PostMapping("/add")
     public void addNewUser(@RequestBody User user) {
@@ -81,6 +84,7 @@ public class UserController {
 
     /**
      * Approve modification of given user
+     *
      * @deprecated
      */
     @PostMapping("/approve")
@@ -90,9 +94,9 @@ public class UserController {
     }
 
     /**
-     * @param id user id
+     * @param id       user id
      * @param dateFrom date range from (optional), e.g. 1990-01-01
-     * @param dateTo date range to (optional)
+     * @param dateTo   date range to (optional)
      * @return list of holidays that overlap with given range
      */
     @GetMapping("/{id}/holidays")
@@ -104,6 +108,12 @@ public class UserController {
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     LocalDate dateTo) {
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
+    }
+
+    @PostMapping("/{id}/holidays/add")
+    public void addHolidayToUser(@PathVariable UUID id,
+                                 @RequestBody Holiday holiday) {
+        userService.addHolidayToUser(id, holiday);
     }
 
     /**

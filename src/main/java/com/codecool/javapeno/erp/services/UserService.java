@@ -27,16 +27,12 @@ public class UserService {
         this.holidayRepository = holidayRepository;
     }
 
-    public ResponseEntity<Object> getUserById(UUID userId) {
+    public User getUserById(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("User not found");
+            return null;
         }
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(user.get());
+        return user.get();
     }
 
     public ResponseEntity<String> updateUserById(UUID userId, User updatedUserData) {
@@ -85,5 +81,11 @@ public class UserService {
         if (to == null) to = LocalDate.now();
 
         return holidayRepository.findAllByUserIdBetween(userId, from, to);
+    }
+
+    public void addHolidayToUser(UUID userId, Holiday holiday) {
+        User user = getUserById(userId);
+        holiday.setUser(user);
+        holidayRepository.save(holiday);
     }
 }
