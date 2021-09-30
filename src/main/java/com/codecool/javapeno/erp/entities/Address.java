@@ -25,4 +25,48 @@ public class Address {
     private String postalCode;
     @NotNull
     private Locale country;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public String getHouseNumber() {
+        return houseNumber;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public Locale getCountry() {
+        return country;
+    }
+
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public void setCountry(Locale country) {
+        this.country = country;
+    }
 }
