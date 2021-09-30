@@ -41,6 +41,19 @@ public class UserService {
                 .body(user.get());
     }
 
+    public ResponseEntity<String> updateUserById(UUID userId, User updatedUserData) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("User is not found");
+        }
+        userRepository.save(updatedUserData);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User data updated");
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
