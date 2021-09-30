@@ -59,8 +59,8 @@ public class UserController {
      * @param id user id
      */
     @DeleteMapping("/{id}")
-    public void inactivateUser(@PathVariable UUID id) {
-        userService.inactivateUser(id);
+    public void deactivateUser(@PathVariable UUID id) {
+        userService.deactivateUser(id);
     }
 
     /**

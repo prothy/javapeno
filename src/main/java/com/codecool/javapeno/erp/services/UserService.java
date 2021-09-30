@@ -67,9 +67,10 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void inactivateUser(UUID id) {
+    public void deactivateUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
+        user.setUpdatedDate(Timestamp.from(Instant.now()));
         user.setStatus(UserStatus.DELETED);
         userRepository.save(user);
     }
