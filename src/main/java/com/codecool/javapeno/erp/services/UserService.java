@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Objects;
@@ -48,6 +50,9 @@ public class UserService {
                     .status(HttpStatus.NOT_FOUND)
                     .body("User is not found");
         }
+
+        updatedUserData.setId(userId);
+        updatedUserData.setUpdatedDate(Timestamp.from(Instant.now()));
         userRepository.save(updatedUserData);
         return ResponseEntity
                 .status(HttpStatus.OK)

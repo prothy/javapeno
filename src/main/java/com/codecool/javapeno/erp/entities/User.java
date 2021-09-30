@@ -62,6 +62,10 @@ public class User {
     @JoinColumn(name = "user_id")
     private List<Holiday> holidays;
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
     public UUID getId() {
         return id;
     }
