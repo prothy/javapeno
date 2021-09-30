@@ -12,8 +12,8 @@ import java.util.UUID;
 @Entity
 public class Holiday {
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue
+    @GenericGenerator(name="postgres-uuid", strategy = "uuid")
     private UUID id;
 
     @NotNull

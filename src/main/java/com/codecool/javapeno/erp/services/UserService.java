@@ -11,11 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,6 +46,8 @@ public class UserService {
                     .status(HttpStatus.NOT_FOUND)
                     .body("User is not found");
         }
+
+        updatedUserData.setId(userId);
         userRepository.save(updatedUserData);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -62,7 +62,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void inactivateUser(UUID id) {
+    public void deactivateUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
         user.setStatus(UserStatus.DELETED);

@@ -7,9 +7,6 @@ import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/user-service")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -31,47 +28,74 @@ public class UserController {
     }
 
     /**
-     *
+     * Returns given user's info
      * @param id user id
      * @return the selected user's data
      */
-    @GetMapping({"/user/{id}"})
+    @GetMapping({"/{id}"})
     public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/user/{id}")
-    public ResponseEntity<String> modifyUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
+    /**
+     * Updates given users
+     * @param id user id
+     * @param updatedUserData must contain the following information
+     * <ul>
+     *     <li>name</li>
+     *     <li>email (in valid format)</li>
+     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     * </ul>
+     * @return Updated user
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
         return userService.updateUserById(id, updatedUserData);
     }
 
+    /**
+     * Sets given user as inactive in DB
+     * @param id user id
+     */
+    @DeleteMapping("/{id}")
+    public void deactivateUser(@PathVariable UUID id) {
+        userService.deactivateUser(id);
+    }
+
+    /**
+     * Adds a new user to database
+     * @param user
+     * User object in request body must contain following fields:
+     * <ul>
+     *     <li>name</li>
+     *     <li>email (in valid format)</li>
+     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     * </ul>
+     */
     @PostMapping("/add")
     public void addNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }
 
-    @RequestMapping("/delete/{id}")
-    public void inactivateUser(@PathVariable UUID id) {
-        userService.inactivateUser(id);
-    }
-
-    @PutMapping(path = "/modify")
-    public void updateUser(@RequestBody User user) {
-        userService.updateUser(user);
-    }
-
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/approve-modified-user")
-    public void getHolidayByUserId(@RequestParam(name = "user") User modifiedUser,
-                                   @RequestParam(name = "approved") boolean approved) {
+    /**
+     * Approve modification of given user
+     * @deprecated
+     */
+    @PostMapping("/approve")
+    public void approveUpdatedUser(@RequestBody User modifiedUser,
+                                   @RequestBody boolean approved) {
         if (approved) userService.updateUser(modifiedUser);
     }
 
-    @GetMapping("/user/{id}/holidays")
+    /**
+     * @param id user id
+     * @param dateFrom date range from (optional), e.g. 1990-01-01
+     * @param dateTo date range to (optional)
+     * @return list of holidays that overlap with given range
+     */
+    @GetMapping("/{id}/holidays")
     public List<Holiday> getHolidayByUserId(@PathVariable UUID id,
                                             @RequestParam(name = "from", required = false)
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -80,5 +104,13 @@ public class UserController {
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     LocalDate dateTo) {
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
+    }
+
+    /**
+     * @return All users saved in DB.
+     */
+    @GetMapping("/all")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
     }
 }
