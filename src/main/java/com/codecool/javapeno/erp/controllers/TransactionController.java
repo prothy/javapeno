@@ -34,13 +34,12 @@ public class TransactionController {
         return transactionService.getUsersTopTransactionsById(userId);
     }
 
-    @GetMapping("/monthly-report/{month}/{year}")
-    public List<Transaction> getMonthlyReport(@PathVariable int month, @PathVariable int year) {
-        return transactionService.getTransactionsByMonthAndYear(month, year);
-    }
+    @GetMapping("/report")
+    public List<Transaction> getReports(@RequestParam(value = "year", required = false) Integer year,
+                                        @RequestParam(value = "month", required = false) Integer month) {
 
-    @GetMapping("/user-report/{year}/{userId}")
-    public List<Transaction> getReportsByYearAndUserId(@PathVariable int year, @PathVariable UUID userId) {
-        return transactionService.getTransactionsByYearAndUserId(year, userId);
+        if (year == null && month == null) return null;
+
+        return transactionService.getReports(year, month);
     }
 }
