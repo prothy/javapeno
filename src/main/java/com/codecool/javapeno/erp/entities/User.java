@@ -1,6 +1,5 @@
 package com.codecool.javapeno.erp.entities;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -38,6 +37,7 @@ public class User {
 
     @Column
     @Email(message = "Email should be valid")
+    @NotNull
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
