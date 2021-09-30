@@ -3,10 +3,12 @@ package com.codecool.javapeno.erp.entities;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.util.Set;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ public class User {
     @Column
     @Id
     @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private UUID id;
 
     @Column
@@ -57,6 +59,7 @@ public class User {
 
     @Column
     private BigDecimal salary;
+
 
     public UUID getId() {
         return id;
