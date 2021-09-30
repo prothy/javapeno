@@ -12,4 +12,6 @@ public class ErpApplication {
 		SpringApplication.run(ErpApplication.class, args);
 	}
 
+	//http://localhost:8080/swagger-ui.html
+
 }
