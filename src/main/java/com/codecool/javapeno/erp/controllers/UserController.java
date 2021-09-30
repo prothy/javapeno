@@ -28,6 +28,7 @@ public class UserController {
     }
 
     /**
+     * Returns given user's info
      * @param id user id
      * @return the selected user's data
      */
@@ -36,27 +37,64 @@ public class UserController {
         return userService.getUserById(id);
     }
 
+    /**
+     * Updates given users
+     * @param id user id
+     * @param updatedUserData must contain the following information
+     * <ul>
+     *     <li>name</li>
+     *     <li>email (in valid format)</li>
+     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     * </ul>
+     * @return Updated user
+     */
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
         return userService.updateUserById(id, updatedUserData);
     }
 
+    /**
+     * Sets given user as inactive in DB
+     * @param id user id
+     */
     @DeleteMapping("/{id}")
     public void inactivateUser(@PathVariable UUID id) {
         userService.inactivateUser(id);
     }
 
+    /**
+     * Adds a new user to database
+     * @param user
+     * User object in request body must contain following fields:
+     * <ul>
+     *     <li>name</li>
+     *     <li>email (in valid format)</li>
+     *     <li>status ("ACTIVE", "INACTIVE", "HOLIDAY", "SICK")</li>
+     *     <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
+     * </ul>
+     */
     @PostMapping("/add")
     public void addNewUser(@RequestBody User user) {
         userService.addNewUser(user);
     }
 
+    /**
+     * Approve modification of given user
+     * @deprecated
+     */
     @PostMapping("/approve")
     public void approveUpdatedUser(@RequestBody User modifiedUser,
                                    @RequestBody boolean approved) {
         if (approved) userService.updateUser(modifiedUser);
     }
 
+    /**
+     * @param id user id
+     * @param dateFrom date range from (optional), e.g. 1990-01-01
+     * @param dateTo date range to (optional)
+     * @return list of holidays that overlap with given range
+     */
     @GetMapping("/{id}/holidays")
     public List<Holiday> getHolidayByUserId(@PathVariable UUID id,
                                             @RequestParam(name = "from", required = false)
@@ -68,6 +106,9 @@ public class UserController {
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
     }
 
+    /**
+     * @return All users saved in DB.
+     */
     @GetMapping("/all")
     public List<User> getUsers() {
         return userService.getAllUsers();
