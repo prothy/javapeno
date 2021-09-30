@@ -38,7 +38,7 @@ public class TransactionService {
         else if (month == null)
             return transactionRepository.findAllByYear(year);
 
-        else return null;
+        return null;
     }
 
     private List<Transaction> getAllTransactionsByUser(UUID id) {

@@ -38,8 +38,6 @@ public class TransactionController {
     public List<Transaction> getReports(@RequestParam(value = "year", required = false) Integer year,
                                         @RequestParam(value = "month", required = false) Integer month) {
 
-        if (year == null && month == null) return null;
-
         return transactionService.getReports(year, month);
     }
 }
