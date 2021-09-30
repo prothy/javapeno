@@ -5,7 +5,6 @@ import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -28,11 +27,12 @@ public class UserService {
         return (User) userRepository.findAllById(Collections.singleton(userId));
     }
 
-    public List<Holiday> getAllHolidaysById(UUID userId) {
-        return holidayRepository.findAllByUserId(userId);
-    }
+    public List<Holiday> getHolidaysByIdInRange(UUID userId, LocalDate from, LocalDate to) {
+        if (from == null && to == null) return holidayRepository.findAllByUserId(userId);
 
-    public List<Holiday> getAllHolidaysByIdBetweenRange(UUID userId, LocalDate from, LocalDate to) {
-        return holidayRepository.findAllByUserIdAndDateFromAndDateTo(userId, from, to);
+        if (from == null) from = LocalDate.of(1970, 1, 1);
+        if (to == null) to = LocalDate.now();
+
+        return holidayRepository.findAllByUserIdBetween(userId, from, to);
     }
 }
