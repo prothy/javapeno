@@ -10,14 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -52,7 +48,6 @@ public class UserService {
         }
 
         updatedUserData.setId(userId);
-        updatedUserData.setUpdatedDate(Timestamp.from(Instant.now()));
         userRepository.save(updatedUserData);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -70,7 +65,6 @@ public class UserService {
     public void deactivateUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
-        user.setUpdatedDate(Timestamp.from(Instant.now()));
         user.setStatus(UserStatus.DELETED);
         userRepository.save(user);
     }
