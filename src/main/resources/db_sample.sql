@@ -12,3 +12,7 @@ values (uuid_in((md5('28b483cc-f11f-ad50-0743-996de7cb01c4'))::cstring), now(), 
 insert into transactions (id, account_num_from, account_num_to, amount, "timestamp", user_id)
 values (uuid_in((md5('54e070d8-9a06-fb14-01f2-98722bc783e9'))::cstring), '11111111-11111111-11111111',
         '11111111-11111111-22222222', 1000, now(), uuid_in((md5('28b483cc-f11f-ad50-0743-996de7cb01c4'))::cstring));
+
+insert into authentication (id, login_name, password, users_id)
+values (uuid_in((md5('4f07f2cc-c7f2-40bf-b8db-f60f6377b0bf'))::cstring), 'teszt_elek', 'safepassword',
+        uuid_in((md5('28b483cc-f11f-ad50-0743-996de7cb01c4'))::cstring))
