@@ -17,8 +17,8 @@ import java.util.UUID;
 public class User {
     @Column
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "postgres-uuid")
+    @GenericGenerator(name="postgres-uuid", strategy = "uuid")
     private UUID id;
 
     @Column
