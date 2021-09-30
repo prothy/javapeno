@@ -16,13 +16,12 @@ import java.util.UUID;
 public class User {
     @Column
     @Id
-    @GeneratedValue(generator = "postgres-uuid")
+    @GeneratedValue
     @GenericGenerator(name="postgres-uuid", strategy = "uuid")
     private UUID id;
 
-    @Column
     @CreationTimestamp
-    @NotNull
+    @Column(nullable = false, updatable = false)
     private Timestamp createdDate;
 
     @Column
