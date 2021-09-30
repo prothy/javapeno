@@ -35,6 +35,6 @@ public class UserController {
                                             @RequestParam(name = "to", required = false)
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     LocalDate dateTo) {
-        return (dateFrom == null || dateTo == null) ? userService.getHolidaysByIdInRange(id, dateFrom, dateTo) : userService.getHolidaysById(id);
+        return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
     }
 }
