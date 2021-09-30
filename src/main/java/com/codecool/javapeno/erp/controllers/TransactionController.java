@@ -27,8 +27,8 @@ public class TransactionController {
         return transactionService.getUserTransactionsById(userId);
     }
 
-    @GetMapping("/get-users-top-transaction")
-    public UserTransactionModel getUsersTopTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+    @GetMapping("/top")
+    public UserTransactionModel getUsersTopTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
         if (userId == null) return null;
 
         return transactionService.getUsersTopTransactionsById(userId);
