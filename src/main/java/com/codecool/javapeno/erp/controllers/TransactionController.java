@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/transaction-service")
+@RequestMapping("api/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
