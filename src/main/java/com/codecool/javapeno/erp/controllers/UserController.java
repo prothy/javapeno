@@ -56,9 +56,14 @@ public class UserController {
         userService.updateUser(user);
     }
 
-
     @GetMapping("/users")
     public List<User> getUsers() {
         return userService.getAllUsers();
+    }
+
+    @GetMapping("/approve-modified-user")
+    public void getHolidayByUserId(@RequestParam(name = "user") User modifiedUser,
+                                   @RequestParam(name = "approved") boolean approved) {
+        if (approved) userService.updateUser(modifiedUser);
     }
 }
