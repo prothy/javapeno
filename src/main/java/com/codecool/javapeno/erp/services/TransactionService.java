@@ -31,16 +31,14 @@ public class TransactionService {
         return new UserTransactionModel(transactionRepository.findTopByUserIdOrderByTimestampDesc(id));
     }
 
-    public List<Transaction> getTransactionsByMonthAndYear(int month, int year) {
-        return transactionRepository.findAllByTimestamp(month, year);
-    }
+    public List<Transaction> getReports(Integer year, Integer month) {
+        if (year != null && month != null)
+            return transactionRepository.findAllByYearAndMonth(year, month);
 
-    public List<Transaction> getTransactionsByYearAndUserId(int year, UUID userId) {
-        return transactionRepository.findAllByYearAndUserId(year, userId);
-    }
+        else if (month == null)
+            return transactionRepository.findAllByYear(year);
 
-    public boolean isIdNull(String stringId) {
-        return stringId == null;
+        else return null;
     }
 
     private List<Transaction> getAllTransactionsByUser(UUID id) {
