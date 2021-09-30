@@ -7,9 +7,6 @@ import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/user-service")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserService userService;
@@ -31,18 +28,22 @@ public class UserController {
     }
 
     /**
-     *
      * @param id user id
      * @return the selected user's data
      */
-    @GetMapping({"/user/{id}"})
+    @GetMapping({"/{id}"})
     public ResponseEntity<Object> getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/user/{id}")
-    public ResponseEntity<String> modifyUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
         return userService.updateUserById(id, updatedUserData);
+    }
+
+    @DeleteMapping("/{id}")
+    public void inactivateUser(@PathVariable UUID id) {
+        userService.inactivateUser(id);
     }
 
     @PostMapping("/add")
@@ -50,28 +51,13 @@ public class UserController {
         userService.addNewUser(user);
     }
 
-    @RequestMapping("/delete/{id}")
-    public void inactivateUser(@PathVariable UUID id) {
-        userService.inactivateUser(id);
-    }
-
-    @PutMapping(path = "/modify")
-    public void updateUser(@RequestBody User user) {
-        userService.updateUser(user);
-    }
-
-    @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getAllUsers();
-    }
-
-    @GetMapping("/approve-modified-user")
-    public void getHolidayByUserId(@RequestParam(name = "user") User modifiedUser,
-                                   @RequestParam(name = "approved") boolean approved) {
+    @PostMapping("/approve")
+    public void approveUpdatedUser(@RequestBody User modifiedUser,
+                                   @RequestBody boolean approved) {
         if (approved) userService.updateUser(modifiedUser);
     }
 
-    @GetMapping("/user/{id}/holidays")
+    @GetMapping("/{id}/holidays")
     public List<Holiday> getHolidayByUserId(@PathVariable UUID id,
                                             @RequestParam(name = "from", required = false)
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -80,5 +66,10 @@ public class UserController {
                                             @DateTimeFormat(pattern = "yyyy-MM-dd")
                                                     LocalDate dateTo) {
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
+    }
+
+    @GetMapping("/all")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
     }
 }
