@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const Toolbar = () => {
-  return <div>TOOLBAR</div>;
+  return <header>TOOLBAR</header>;
 };
 
 export default Toolbar;
