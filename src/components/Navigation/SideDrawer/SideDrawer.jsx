@@ -1,29 +1,14 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-import {CashStack, House, Person} from "react-bootstrap-icons";
-//import classes from './SideDrawer.module.css';
+import {CashStack, HouseDoorFill, PersonLinesFill} from "react-bootstrap-icons";
+import './SideDrawer.module.css';
+import SideDrawerListElement from "./SideDrawerListElement";
 
 const SideDrawer = () => {
   return(
       <ul className={"nav nav-pills flex-column mb-auto"}>
-          <li className={"nav-item"}>
-              <Link className={"nav-link link-dark"} to={"/"}>
-                    <House/>
-                  Home
-              </Link>
-          </li>
-          <li className={"nav-item"}>
-              <Link className={"nav-link active"} to={"/employees"}>
-                  <Person/>
-                  Employees
-              </Link>
-          </li>
-          <li className={"nav-item"}>
-              <Link className={"nav-link link-dark"}  to={"/transactions"}>
-                  <CashStack/>
-                  Transactions
-              </Link>
-          </li>
+          <SideDrawerListElement link={"/"} icon={<HouseDoorFill />} text={"Home"} linkClass={"nav-link active"}/>
+          <SideDrawerListElement link={"/employees"} icon={<PersonLinesFill />} text={"Employees"} linkClass={"nav-link link-dark"}/>
+          <SideDrawerListElement link={"/transactions"} icon={<CashStack />} text={"Transactions"} linkClass={"nav-link link-dark"}/>
       </ul>
 
       );
