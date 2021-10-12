@@ -4,6 +4,11 @@ import {Link} from "react-router-dom";
 const SideDrawerListElement = (props) => {
     const [linkClass, setLinkClass] = useState(props.linkClass);
 
+    const clickLink = () => {
+        if (linkClass === "nav-link link-dark") {
+            setLinkClass("nav-link active");
+        }
+    }
 
     return(
         <li className={"nav-item"}>
