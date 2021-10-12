@@ -1,8 +1,8 @@
 import TableRow from "./TableRow";
 
 let Body = ({body}) => {
-    let lines = body.map(line =>
-        <tr>
+    let lines = body.map((line, index) =>
+        <tr key={index}>
             <TableRow line={line}/>
         </tr>
     );

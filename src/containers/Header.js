@@ -1,8 +1,8 @@
 import React from 'react';
 
 let Header = ({header}) => {
-    let headers = header.map(columnHeader => (
-        <th>{columnHeader}</th>
+    let headers = header.map((columnHeader, index) => (
+        <th key={index}>{columnHeader}</th>
     ));
     return (
         <thead>
