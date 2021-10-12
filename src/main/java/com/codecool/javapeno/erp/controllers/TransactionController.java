@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/transaction-service")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -20,15 +20,15 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/get-user-transactions")
-    public List<UserTransactionModel> getUserTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+    @GetMapping("/all")
+    public List<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
         if (userId == null) return null;
 
         return transactionService.getUserTransactionsById(userId);
     }
 
-    @GetMapping("/get-users-top-transaction")
-    public UserTransactionModel getUsersTopTransaction(@RequestParam(value = "userId", required = false) UUID userId) {
+    @GetMapping("/top")
+    public UserTransactionModel getUsersTopTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
         if (userId == null) return null;
 
         return transactionService.getUsersTopTransactionsById(userId);

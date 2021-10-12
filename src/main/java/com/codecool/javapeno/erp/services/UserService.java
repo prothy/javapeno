@@ -11,11 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.List;
 import java.util.Optional;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -29,16 +27,12 @@ public class UserService {
         this.holidayRepository = holidayRepository;
     }
 
-    public ResponseEntity<Object> getUserById(UUID userId) {
+    public User getUserById(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("User not found");
+            return null;
         }
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(user.get());
+        return user.get();
     }
 
     public ResponseEntity<String> updateUserById(UUID userId, User updatedUserData) {
@@ -48,6 +42,8 @@ public class UserService {
                     .status(HttpStatus.NOT_FOUND)
                     .body("User is not found");
         }
+
+        updatedUserData.setId(userId);
         userRepository.save(updatedUserData);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -62,7 +58,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void inactivateUser(UUID id) {
+    public void deactivateUser(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
         user.setStatus(UserStatus.DELETED);
@@ -85,5 +81,11 @@ public class UserService {
         if (to == null) to = LocalDate.now();
 
         return holidayRepository.findAllByUserIdBetween(userId, from, to);
+    }
+
+    public void addHolidayToUser(UUID userId, Holiday holiday) {
+        User user = getUserById(userId);
+        holiday.setUser(user);
+        holidayRepository.save(holiday);
     }
 }

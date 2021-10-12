@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -16,15 +17,15 @@ import java.util.UUID;
 public class User {
     @Column
     @Id
-    @GeneratedValue(generator = "postgres-uuid")
+    @GeneratedValue
     @GenericGenerator(name="postgres-uuid", strategy = "uuid")
     private UUID id;
 
-    @Column
     @CreationTimestamp
-    @NotNull
+    @Column(nullable = false, updatable = false)
     private Timestamp createdDate;
 
+    @UpdateTimestamp
     @Column
     private Timestamp updatedDate;
 
@@ -59,9 +60,9 @@ public class User {
     @Column
     private BigDecimal salary;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private List<Holiday> holidays;
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public UUID getId() {
         return id;
