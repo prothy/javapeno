@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import Employeelistitem from './EmployeeListItem';
 
 const EmployeeList = () => {
     const [employeeList, setEmployeeList] = useState([]);
@@ -21,7 +22,7 @@ const EmployeeList = () => {
     return (
         <>
             { employeeList ? employeeList.map(el => 
-                <div key={el.id}>{el.name}</div>
+                <Employeelistitem data={el}/>
             ) : <div>No employees</div>}
         </>
     );
