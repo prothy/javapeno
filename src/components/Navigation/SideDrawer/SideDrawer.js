@@ -2,7 +2,7 @@ import React from 'react';
 //import classes from './SideDrawer.module.css';
 
 const SideDrawer = () => {
-  return <div>SIDEDRAWER</div>;
+  return <aside>SIDEDRAWER</aside>;
 };
 
 export default SideDrawer;
