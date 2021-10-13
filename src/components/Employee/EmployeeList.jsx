@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import { Table } from 'react-bootstrap';
 
 import EmployeeListItem from './EmployeeListItem';
 import PaginationButton from './PaginationButton';
@@ -15,8 +16,6 @@ const EmployeeList = () => {
             .then(res => res.json())
             .catch(err => console.error(err))
 
-        console.log(employeeListObj);
-
         setEmployeeList(employeeListObj.content)
     }, [page])
 
@@ -30,13 +29,20 @@ const EmployeeList = () => {
 
     return (
         <>
-            <section className="employee-list">
+            <Table className="employee-list" striped>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
                 { 
-                    employeeList ? employeeList.map(el => 
-                        <EmployeeListItem data={el}/>
-                    ) : <div>No employees</div>
+                    employeeList ? employeeList.map(el => <EmployeeListItem data={el}/>
+                        
+                    ) : <tr><td>No employees</td></tr>
                 }
-            </section>
+                </tbody>
+            </Table>
             <div>
                 <PaginationButton pageState={{page, setPage}} dir="prev" />
                 <PaginationButton pageState={{page, setPage}} dir="next"/>
