@@ -16,7 +16,7 @@ const Header = () => {
             <header>
                 <Navbar bg="dark" variant="dark">
                     <Container>
-                        <Navbar.Brand href="/"><img src={logo} style={{width: 40, height: 40}} alt=""/></Navbar.Brand>
+                        <img src={logo} style={{width: 40, height: 40}} alt=""/>
                         <Navbar.Toggle />
 
                         <Navbar.Collapse className="justify-content-end" style={{fontSize: 40, color: "white"}}>
