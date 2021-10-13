@@ -16,8 +16,6 @@ const Layout = (props) => {
                 </Col>
                 <Col xs={10}>
                     <main>{props.children}</main>
-                    <p>Test</p>
-                    <p>Test</p>
                 </Col>
             </Row>
         </Container>
