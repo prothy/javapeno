@@ -18,7 +18,10 @@ function App() {
           <Route path="/employees">
             <EmployeeList />
           </Route>
-          <Route path="/">
+          <Route path="/home" >
+            <Javapeno />
+          </Route>
+          <Route path="/" >
             <Javapeno />
           </Route>
         </Switch>
