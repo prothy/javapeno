@@ -1,5 +1,5 @@
 import React from 'react';
-import {CashStack, HouseDoorFill, PersonLinesFill} from "react-bootstrap-icons";
+import {CashStack, HouseDoorFill, PersonLinesFill, PersonPlusFill} from "react-bootstrap-icons";
 import './SideDrawer.module.css';
 import {Nav, NavItem, NavLink} from "react-bootstrap";
 import {LinkContainer} from 'react-router-bootstrap'
@@ -20,6 +20,14 @@ const SideDrawer = () => {
                   <NavLink eventKey={"employees"} >
                       <PersonLinesFill />
                       Employees
+                  </NavLink>
+              </LinkContainer>
+          </NavItem>
+          <NavItem className={"sub-item"}>
+              <LinkContainer to={"/create-employee"} >
+                  <NavLink eventKey={"create-employee"} >
+                      <PersonPlusFill />
+                      Create new user
                   </NavLink>
               </LinkContainer>
           </NavItem>
