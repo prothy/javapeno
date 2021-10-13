@@ -43,7 +43,7 @@ function UserData(props) {
 }
 
 function Address({address}) {
-    if (address !== undefined)
+    if (address !== undefined && address !== null)
         return address.postalCode + " " + address.city + ", " + address.street + " " + address.houseNumber + ".";
     return "";
 }
