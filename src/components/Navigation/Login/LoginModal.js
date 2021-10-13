@@ -11,7 +11,7 @@ function LoginModal({ show, handleClose }) {
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
