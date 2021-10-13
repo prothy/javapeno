@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Navbar} from "react-bootstrap";
-import {PersonCircle} from "react-bootstrap-icons";
+import LoginButton from "../Login/LoginButton";
+import LoginModal from "../Login/LoginModal";
 
 const Header = () => {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <>
             <header>
@@ -17,14 +23,13 @@ const Header = () => {
                         </Navbar.Collapse>
 
                         <Navbar.Collapse className="justify-content-end">
-                            <Navbar.Text>
-                                <a href="#login"><PersonCircle style={{width: 40, height: 40}}/></a>
-                            </Navbar.Text>
+                           <LoginButton handleShow={handleShow} />
                         </Navbar.Collapse>
 
                     </Container>
                 </Navbar>
             </header>
+            <LoginModal show={show} handleClose={handleClose} />
         </>
     );
 };
