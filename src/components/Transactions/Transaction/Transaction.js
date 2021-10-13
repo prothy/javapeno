@@ -1,16 +1,18 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 
-const Transaction = (props) => {
-  return (
-    <tr>
-      <td>{props.transaction.id}</td>
-      <td>{props.transaction.account_num_from}</td>
-      <td>{props.transaction.account_num_to}</td>
-      <td>{props.transaction.amount}</td>
-      <td>{props.transaction.timestamp}</td>
-      <td>{props.transaction.user_id}</td>
-    </tr>
-  );
+const Transaction = ({trans, index}) => {
+    return (
+        <>
+            <tr key={trans.id}>
+                <td>
+                    <Link to={`/transaction/${trans.id}`} key={trans.id}>{index + 1}</Link>
+                </td>
+                <td>{trans.timestamp}</td>
+                <td>{trans.amount}</td>
+            </tr>
+        </>
+    );
 };
 
 export default Transaction;
