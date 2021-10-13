@@ -2,6 +2,8 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Table} from "react-bootstrap";
 import Transaction from './Transaction/Transaction';
 import PaginationButton from "../Employee/PaginationButton";
+import Example from "./Example";
+import Example2 from "./Example2";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -37,6 +39,8 @@ const Transactions = () => {
 
     return (
         <>
+            <Example/>
+            <Example2/>
             <div>
                 <PaginationButton pageState={{page, setPage, maxPage}} dir="prev"/>
                 <PaginationButton pageState={{page, setPage, maxPage}} dir="next"/>
