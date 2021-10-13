@@ -1,15 +1,38 @@
 import React from 'react';
 import {CashStack, HouseDoorFill, PersonLinesFill} from "react-bootstrap-icons";
 import './SideDrawer.module.css';
-import SideDrawerListElement from "./SideDrawerListElement";
+import {Nav, NavItem, NavLink} from "react-bootstrap";
+import {LinkContainer} from 'react-router-bootstrap'
 
 const SideDrawer = () => {
   return(
-      <ul className={"nav nav-pills flex-column mb-auto"}>
-          <SideDrawerListElement link={"/"} icon={<HouseDoorFill />} text={"Home"} linkClass={"nav-link active"}/>
-          <SideDrawerListElement link={"/employees"} icon={<PersonLinesFill />} text={"Employees"} linkClass={"nav-link link-dark"}/>
-          <SideDrawerListElement link={"/transactions"} icon={<CashStack />} text={"Transactions"} linkClass={"nav-link link-dark"}/>
-      </ul>
+      <Nav className="flex-column" variant={"pills"} defaultActiveKey={"home"}>
+          <NavItem>
+              <LinkContainer to={"/home"}>
+                  <NavLink eventKey={"home"} >
+                      <HouseDoorFill />
+                      Home
+                  </NavLink>
+              </LinkContainer>
+          </NavItem>
+          <NavItem>
+              <LinkContainer to={"/employee"}>
+                  <NavLink eventKey={"employee"} >
+                      <PersonLinesFill />
+                      Employee
+                  </NavLink>
+              </LinkContainer>
+          </NavItem>
+          <NavItem>
+              <LinkContainer to={"/transactions"}>
+                  <NavLink eventKey={"transactions"} >
+                      <CashStack />
+                      Transaction
+                  </NavLink>
+              </LinkContainer>
+          </NavItem>
+      </Nav>
+
 
       );
 };
