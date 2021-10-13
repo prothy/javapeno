@@ -37,6 +37,7 @@ TransactionsTableBody.propTypes = {
     transactions: PropTypes.arrayOf(PropTypes.any),
     callbackfn: PropTypes.func
 };
+
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [page, setPage] = useState(0);
@@ -72,7 +73,7 @@ const Transactions = () => {
     return (
         <>
             <TransactionsHeader/>
-            <DayPicker/>
+            {/*<DayPicker/>*/}
             <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
             <div className="showText">Showing
                 transactions {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
