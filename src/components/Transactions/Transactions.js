@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Table} from "react-bootstrap";
 import Transaction from './Transaction/Transaction';
-import PaginationButton from "../Layout/PaginationButton";
+import PaginationButton from "../Employee/PaginationButton";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
@@ -50,15 +50,16 @@ const Transactions = () => {
                     <th>#</th>
                     <th>Date</th>
                     <th>Amount</th>
+                    <th>From</th>
+                    <th>To</th>
                 </tr>
                 </thead>
                 <tbody>
-                {
-                    transactions ?
-                        transactions.map((trans, index) => <Transaction trans={trans} index={index}/>) :
-                        <tr>
-                            <td colSpan="2">No transactions for user</td>
-                        </tr>
+                {transactions ?
+                    transactions.map((trans, index) => <Transaction trans={trans} index={index}/>) :
+                    <tr>
+                        <td colSpan="5">No transactions for user</td>
+                    </tr>
                 }
                 </tbody>
             </Table>
