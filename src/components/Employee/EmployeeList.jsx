@@ -9,6 +9,8 @@ const EmployeeList = () => {
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
 
+    const [responseObj, setResponsObj] = useState({})
+
     const fetchEmployeeList = useCallback(async () => {
         const employeeListObj = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
             credentials: 'include',
@@ -19,6 +21,8 @@ const EmployeeList = () => {
 
         setMaxPage(employeeListObj.totalPages - 1)
         setEmployeeList(employeeListObj.content)
+
+        setResponsObj(employeeListObj)
     }, [page])
 
     useEffect(() => {
@@ -35,6 +39,7 @@ const EmployeeList = () => {
                 <PaginationButton pageState={{page, setPage, maxPage}} dir="prev" />
                 <PaginationButton pageState={{page, setPage, maxPage}} dir="next"/>
             </div>
+            <div>Showing users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out of {parseInt(responseObj.totalElements)}</div>
             <Table className="employee-list" striped>
                 <thead>
                     <tr>
