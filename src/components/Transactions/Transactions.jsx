@@ -1,10 +1,42 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Table} from "react-bootstrap";
 import Transaction from './Transaction/Transaction';
-import PaginationButton from "../Employee/PaginationButton";
-import Example from "./Example";
-import Example2 from "./Example2";
+import DayPicker from "./DayPicker";
+import "./Transactions.css"
+import * as PropTypes from "prop-types";
+import {PagerButtons} from "../../util";
 
+function TransactionsHeader() {
+    return <h4 id="transactionsHeader">User's transactions</h4>;
+}
+
+function TransactionsTableHeader() {
+    return <thead>
+    <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>From</th>
+        <th>To</th>
+    </tr>
+    </thead>;
+}
+
+function TransactionsTableBody(props) {
+    return <tbody>
+    {props.transactions ?
+        props.transactions.map(props.callbackfn) :
+        <tr>
+            <td colSpan="5">No transactions for user</td>
+        </tr>
+    }
+    </tbody>;
+}
+
+TransactionsTableBody.propTypes = {
+    transactions: PropTypes.arrayOf(PropTypes.any),
+    callbackfn: PropTypes.func
+};
 const Transactions = () => {
     const [transactions, setTransactions] = useState([]);
     const [page, setPage] = useState(0);
@@ -39,34 +71,20 @@ const Transactions = () => {
 
     return (
         <>
-            <Example/>
-            <Example2/>
-            <div>
-                <PaginationButton pageState={{page, setPage, maxPage}} dir="prev"/>
-                <PaginationButton pageState={{page, setPage, maxPage}} dir="next"/>
-            </div>
-            <div>Showing
+            <TransactionsHeader/>
+            <DayPicker/>
+            <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
+            <div className="showText">Showing
                 transactions {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
-                of {parseInt(responseObj.totalElements)}</div>
-            <Table className="transaction-list" striped>
-                <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Amount</th>
-                    <th>From</th>
-                    <th>To</th>
-                </tr>
-                </thead>
-                <tbody>
-                {transactions ?
-                    transactions.map((trans, index) => <Transaction trans={trans} index={index}/>) :
-                    <tr>
-                        <td colSpan="5">No transactions for user</td>
-                    </tr>
-                }
-                </tbody>
-            </Table>
+                of {parseInt(responseObj.totalElements)}
+            </div>
+            <div className="transactions">
+                <Table className="transaction-list" striped>
+                    <TransactionsTableHeader/>
+                    <TransactionsTableBody transactions={transactions}
+                                           callbackfn={(trans, index) => <Transaction trans={trans} index={index}/>}/>
+                </Table>
+            </div>
         </>
     );
 };
