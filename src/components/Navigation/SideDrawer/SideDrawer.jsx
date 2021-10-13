@@ -16,10 +16,10 @@ const SideDrawer = () => {
               </LinkContainer>
           </NavItem>
           <NavItem>
-              <LinkContainer to={"/employee"}>
-                  <NavLink eventKey={"employee"} >
+              <LinkContainer to={"/employees"}>
+                  <NavLink eventKey={"employees"} >
                       <PersonLinesFill />
-                      Employee
+                      Employees
                   </NavLink>
               </LinkContainer>
           </NavItem>
