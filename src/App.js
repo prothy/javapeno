@@ -2,7 +2,7 @@ import { Route, Switch } from 'react-router';
 
 import './App.css';
 
-import Employee from './components/Employee/Employee';
+import EmployeeList from './components/Employee/EmployeeList';
 import Javapeno from './containers/Javapeno';
 import Layout from './components/Layout/Layout';
 
@@ -12,7 +12,7 @@ function App() {
       <Layout>
         <Switch>
           <Route path="/employees">
-            <Employee />
+            <EmployeeList />
           </Route>
           <Route path="/">
             <Javapeno />
