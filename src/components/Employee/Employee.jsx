@@ -4,9 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Employee.css"
 import * as PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
+import {numberFormat} from "../../util.js"
 
 function EmployeeHeader() {
-    return <h4 id="employeeHeader">User data</h4>;
+    return <h4 id="employeeHeader">Employee data</h4>;
 }
 
 function EditButton() {
@@ -36,7 +37,7 @@ function UserData(props) {
         </tr>
         <tr>
             <td>Salary</td>
-            <td>{props.userData.salary} Ft</td>
+            <td>{numberFormat(props.userData.salary)}</td>
         </tr>
         </tbody>
     </Table>;
