@@ -3,6 +3,7 @@ import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Employee.css"
 import * as PropTypes from "prop-types";
+import {useParams} from "react-router-dom";
 
 function EmployeeHeader() {
     return <h4 id="employeeHeader">User data</h4>;
@@ -55,11 +56,12 @@ function ModifyButton() {
 
 let Employee = () => {
     let [userData, setData] = useState([]);
-    // let getUserURL = "http://localhost:8080/api/user/";
-    // let userID = "8cb3a14a-e68e-f902-badb-3e9877e6b330";
+    const {userId} = useParams();
+
+    let getUserURL = "http://localhost:8080/api/user/";
 
     let fetchEmployeeById = useCallback(async () => {
-        let userData = await fetch("http://localhost:8080/api/user/8cb3a14a-e68e-f902-badb-3e9877e6b330", {
+        let userData = await fetch(getUserURL + userId, {
             method: 'GET',
             credentials: 'include',
             mode: 'cors'
@@ -67,7 +69,7 @@ let Employee = () => {
             .then(res => res.json())
             .catch(err => console.error(err));
         setData(userData)
-    }, [])
+    }, [getUserURL, userId])
 
     useEffect(() => {
         fetchEmployeeById().catch(err => console.error(err));
