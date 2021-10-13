@@ -6,6 +6,8 @@ import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.entities.UserStatus;
 import com.codecool.javapeno.erp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,8 +52,8 @@ public class UserService {
                 .body("User data updated");
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     public void addNewUser(User user) {
