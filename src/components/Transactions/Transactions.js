@@ -1,52 +1,70 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Table} from "react-bootstrap";
 import Transaction from './Transaction/Transaction';
+import PaginationButton from "../Employee/PaginationButton";
 
 const Transactions = () => {
-  const [transactions, setTransactions] = useState([
-    {
-      id: '54e070d8-9a06-fb14-01f2-98722bc783e9',
-      account_num_from: '11111111-11111111-11111111',
-      account_num_to: '11111111-11111111-22222222',
-      amount: 89999,
-      timestamp: '2021.10.10.',
-      user_id: 'e1a84108-568d-40ca-a406-0e4032c8383d',
-    },
-    {
-      id: 'bc5b136d-91cb-4b60-a782-59a01bbb27e7',
-      account_num_from: '11111111-11111111-11111111',
-      account_num_to: '11111111-11111111-22222222',
-      amount: 3199,
-      timestamp: '2021.09.12.',
-      user_id: '28b483cc-f11f-ad50-0743-996de7cb01c4',
-    },
-    {
-      id: 'ec87b342-dea4-4c70-ae10-06abcde04f1c',
-      account_num_from: '11111111-11111111-11111111',
-      account_num_to: '11111111-11111111-22222222',
-      amount: 6499,
-      timestamp: '2021.08.02.',
-      user_id: '28b483cc-f11f-ad50-0743-996de7cb01c4',
-    },
-  ]);
-  return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>FROM</th>
-          <th>TO</th>
-          <th>AMOUNT</th>
-          <th>DATE</th>
-          <th>USER ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {transactions.map((actualTransaction) => (
-          <Transaction transaction={actualTransaction} />
-        ))}
-      </tbody>
-    </table>
-  );
+    const [transactions, setTransactions] = useState([]);
+    const [page, setPage] = useState(0);
+    const [maxPage, setMaxPage] = useState(0);
+
+    const [responseObj, setResponseObj] = useState({})
+
+
+    const fetchTransactions = useCallback(async () => {
+        const userTransactions = await fetch(
+            `http://localhost:8080/api/transaction/all?userId=8cb3a14a-e68e-f902-badb-3e9877e6b330&page=${page}`, {
+                method: 'GET',
+                credentials: 'include',
+                mode: 'cors'
+            })
+            .then(res => res.json())
+            .catch(err => console.error(err))
+
+        setMaxPage(userTransactions.totalPages - 1)
+        setTransactions(userTransactions.content)
+
+        setResponseObj(userTransactions)
+    }, [page])
+
+    useEffect(() => {
+        const pageNum = window.location.search ? new URLSearchParams(window.location.search).get('page') : 0;
+        setPage(parseInt(pageNum));
+
+        fetchTransactions()
+            .catch(err => console.error(err))
+    }, [fetchTransactions]);
+
+    return (
+        <>
+            <div>
+                <PaginationButton pageState={{page, setPage, maxPage}} dir="prev"/>
+                <PaginationButton pageState={{page, setPage, maxPage}} dir="next"/>
+            </div>
+            <div>Showing
+                transactions {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
+                of {parseInt(responseObj.totalElements)}</div>
+            <Table className="transaction-list" striped>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+                </thead>
+                <tbody>
+                {transactions ?
+                    transactions.map((trans, index) => <Transaction trans={trans} index={index}/>) :
+                    <tr>
+                        <td colSpan="5">No transactions for user</td>
+                    </tr>
+                }
+                </tbody>
+            </Table>
+        </>
+    );
 };
 
 export default Transactions;

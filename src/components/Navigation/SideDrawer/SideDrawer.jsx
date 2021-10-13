@@ -27,7 +27,7 @@ const SideDrawer = () => {
               <LinkContainer to={"/transactions"}>
                   <NavLink eventKey={"transactions"} >
                       <CashStack />
-                      Transaction
+                      Transactions
                   </NavLink>
               </LinkContainer>
           </NavItem>
