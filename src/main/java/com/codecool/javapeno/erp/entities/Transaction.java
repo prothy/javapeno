@@ -55,4 +55,28 @@ public class Transaction {
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
+    public String getAccountNumFrom() {
+        return accountNumFrom;
+    }
+
+    public String getAccountNumTo() {
+        return accountNumTo;
+    }
+
+    public void setAccountNumFrom(String accountNumFrom) {
+        this.accountNumFrom = accountNumFrom;
+    }
+
+    public void setAccountNumTo(String accountNumTo) {
+        this.accountNumTo = accountNumTo;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }
