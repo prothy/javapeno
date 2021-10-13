@@ -5,11 +5,19 @@ const PaginationButton = ({pageState, dir}) => {
     const history = useHistory();
 
     const updatePage = () => {
-        dir === 'next' ? pageState.setPage(pageState.page++) : pageState.setPage(pageState.page--);
+        let nextPage = dir === 'next' ? parseInt(pageState.page) + 1 : parseInt(pageState.page) - 1;
+
+        if (nextPage <= 0) {
+            nextPage = 0;
+        } else if (nextPage > pageState.maxPage) {
+            nextPage = pageState.maxPage;
+        }
+        
+        pageState.setPage(nextPage);
 
         history.push({
-            search: `?page=${pageState.page}`
-        })
+            search: `?page=${nextPage}`
+        });
     }
 
     return (
