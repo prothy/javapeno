@@ -17,8 +17,6 @@ const EmployeeList = () => {
             .then(res => res.json())
             .catch(err => console.error(err))
 
-        console.log(employeeListObj);
-
         setMaxPage(employeeListObj.totalPages - 1)
         setEmployeeList(employeeListObj.content)
     }, [page])
