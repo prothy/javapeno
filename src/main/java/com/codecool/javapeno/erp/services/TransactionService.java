@@ -4,6 +4,9 @@ import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,13 +21,12 @@ public class TransactionService {
         this.transactionRepository = transactionRepository;
     }
 
-    public List<UserTransactionModel> getUserTransactionsById(UUID id) {
-        List<UserTransactionModel> userTransactionModels = new ArrayList<>();
-        List<Transaction> transactions = getAllTransactionsByUser(id);
+    public Page<UserTransactionModel> getUserTransactionsById(UUID id, Pageable pageable) {
+        List<UserTransactionModel> userTransactions = new ArrayList<>();
+        for (Transaction transaction : getAllTransactionsByUser(id, pageable))
+            userTransactions.add(new UserTransactionModel(transaction));
 
-        for (Transaction transaction : transactions) userTransactionModels.add(new UserTransactionModel(transaction));
-
-        return userTransactionModels;
+        return new PageImpl<>(userTransactions);
     }
 
     public UserTransactionModel getUsersTopTransactionsById(UUID id) {
@@ -41,8 +43,8 @@ public class TransactionService {
         return null;
     }
 
-    private List<Transaction> getAllTransactionsByUser(UUID id) {
+    private List<Transaction> getAllTransactionsByUser(UUID id, Pageable pageable) {
         if (id == null) return null;
-        return transactionRepository.findAllByUserId(id);
+        return transactionRepository.findAllByUserId(id, pageable);
     }
 }

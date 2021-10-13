@@ -1,9 +1,12 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Transaction;
+import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,10 +24,9 @@ public class TransactionController {
     }
 
     @GetMapping("/all")
-    public List<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
+    public Page<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId, Pageable pageable) {
         if (userId == null) return null;
-
-        return transactionService.getUserTransactionsById(userId);
+        return transactionService.getUserTransactionsById(userId, pageable);
     }
 
     @GetMapping("/top")
