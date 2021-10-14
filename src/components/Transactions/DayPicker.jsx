@@ -1,57 +1,60 @@
 import React from 'react';
 import Helmet from "react-helmet";
-import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {formatDate, parseDate} from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
 
 import "./DayPicker.css"
 
+function convert(str) {
+    let date = new Date(str),
+        month = ("0" + (date.getMonth() + 1)).slice(-2),
+        day = ("0" + date.getDate()).slice(-2);
+    return [date.getFullYear(), month, day].join("/");
+}
+
+export function getFromDate() {
+    return convert(dates.from.toString());
+}
+
+export function getToDate() {
+    return convert(dates.to.toString());
+}
+
+let dates = {
+    from: undefined,
+    to: undefined,
+};
+
 export default class DayPicker extends React.Component {
     constructor(props) {
         super(props);
         this.handleFromChange = this.handleFromChange.bind(this);
         this.handleToChange = this.handleToChange.bind(this);
-        this.state = {
-            from: undefined,
-            to: undefined,
-        };
-    }
-
-    showFromMonth() {
-        const {from, to} = this.state;
-        if (!from) {
-            return;
-        }
-        if (moment(to).diff(moment(from), 'months') < 2) {
-            this.to.getDayPicker().showMonth(from);
-        }
+        this.setFromDate = props.setFromDate;
+        this.setToDate = props.setToDate;
     }
 
     handleFromChange(from) {
-        this.setState({from});
+        dates.from = from;
+        this.setFromDate(getFromDate());
     }
 
     async handleToChange(to) {
-        await this.setState({to}, this.showFromMonth);
-        this.checkIfBothDatesSelected()
+        dates.to = to;
+        this.setToDate(getToDate());
     }
 
-    checkIfBothDatesSelected() {
-        if (this.state.from && this.state.to){
-            console.log(("Both selected"));
-        }
-    }
 
     render() {
-        const {from, to} = this.state;
+        const from = dates.from;
+        const to = dates.to;
         const modifiers = {start: from, end: to};
         return (
             <div className="InputFromTo">
                 <DayPickerInput
                     value={from}
                     placeholder="From"
-                    format="LL"
                     formatDate={formatDate}
                     parseDate={parseDate}
                     dayPickerProps={{
@@ -70,7 +73,6 @@ export default class DayPicker extends React.Component {
                           ref={el => (this.to = el)}
                           value={to}
                           placeholder="To"
-                          format="LL"
                           formatDate={formatDate}
                           parseDate={parseDate}
                           dayPickerProps={{
