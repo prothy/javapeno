@@ -1,6 +1,8 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Holiday;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -37,7 +39,15 @@ public class UserController {
      * @return the selected user's data
      */
     @GetMapping({"/{id}"})
-    public User getUserById(@PathVariable UUID id) {
+    @ApiOperation(
+            value = "Find user by id",
+            notes = "Provide an id to look up specific user from the users book",
+            response = User.class)
+
+    public User getUserById(
+            @ApiParam(value = "ID value for the user you need to retrieve", required = true)
+            @PathVariable UUID id) {
+
         return userService.getUserById(id);
     }
 
@@ -55,7 +65,17 @@ public class UserController {
      * @return Updated user
      */
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUserById(@PathVariable UUID id, @RequestBody User updatedUserData) {
+    @ApiOperation(
+            value = "Update user data by id",
+            notes = "Updating user data in the user book",
+            response = ResponseEntity.class)
+
+    public ResponseEntity<String> updateUserById(
+            @ApiParam(value = "ID value for the user", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "All user data for to update")
+            @RequestBody User updatedUserData) {
+
         return userService.updateUserById(id, updatedUserData);
     }
 
@@ -65,7 +85,14 @@ public class UserController {
      * @param id user id
      */
     @DeleteMapping("/{id}")
-    public void deactivateUser(@PathVariable UUID id) {
+    @ApiOperation(
+            value = "Deactivate user by id",
+            notes = "Change user status to deleted")
+
+    public void deactivateUser(
+            @ApiParam(value = "Id value for the user", required = true)
+            @PathVariable UUID id) {
+
         userService.deactivateUser(id);
     }
 
@@ -81,7 +108,14 @@ public class UserController {
      *             </ul>
      */
     @PostMapping("/add")
-    public void addNewUser(@RequestBody User user) {
+    @ApiOperation(
+            value = "Create new user",
+            notes = "Add new user to the users book")
+
+    public void addNewUser(
+            @ApiParam(value = "All parameter for create new user", required = true)
+            @RequestBody User user) {
+
         userService.addNewUser(user);
     }
 
@@ -91,8 +125,16 @@ public class UserController {
      * @deprecated
      */
     @PostMapping("/approve")
-    public void approveUpdatedUser(@RequestBody User modifiedUser,
-                                   @RequestBody boolean approved) {
+    @ApiOperation(
+            value = "Approve user data to update",
+            notes = "Accept the submitted user data")
+
+    public void approveUpdatedUser(
+            @ApiParam(value = "User data to modify", required = true)
+            @RequestBody User modifiedUser,
+            @ApiParam(value = "true/false parameter to accept the modification")
+            @RequestBody boolean approved) {
+
         if (approved) userService.updateUser(modifiedUser);
     }
 
@@ -103,19 +145,35 @@ public class UserController {
      * @return list of holidays that overlap with given range
      */
     @GetMapping("/{id}/holidays")
-    public List<Holiday> getHolidayByUserId(@PathVariable UUID id,
-                                            @RequestParam(name = "from", required = false)
-                                            @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                    LocalDate dateFrom,
-                                            @RequestParam(name = "to", required = false)
-                                            @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                    LocalDate dateTo) {
+    @ApiOperation(
+            value = "Get user holidays by id",
+            notes = "Return all user holidays from the holiday book by date",
+            response = List.class)
+
+    public List<Holiday> getHolidayByUserId(
+            @ApiParam(value = "Id value from the user", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "The Holiday beginning date")
+            @RequestParam(name = "from", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateFrom,
+            @ApiParam(value = "The Holiday ending date")
+            @RequestParam(name = "to", required = false)
+            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateTo) {
+
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
     }
 
     @PostMapping("/{id}/holidays/add")
-    public void addHolidayToUser(@PathVariable UUID id,
-                                 @RequestBody Holiday holiday) {
+    @ApiOperation(
+            value = "Add holiday",
+            notes = "Add holiday to holiday book by user id")
+
+    public void addHolidayToUser(
+            @ApiParam(value = "Id value from the user", required = true)
+            @PathVariable UUID id,
+            @ApiParam(value = "From - to dates for the holiday", required = true)
+            @RequestBody Holiday holiday) {
+
         userService.addHolidayToUser(id, holiday);
     }
 
@@ -123,6 +181,10 @@ public class UserController {
      * @return 10 users by page, accepts 'page' as URL parameter as per Spring Pageable
      */
     @GetMapping("/all")
+    @ApiOperation(
+            value = "Find all user (pageable)",
+            notes = "This end point have a pageable spring boot class")
+
     public Page<User> getUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
     }
