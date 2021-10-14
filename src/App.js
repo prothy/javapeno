@@ -7,6 +7,7 @@ import Javapeno from './containers/Javapeno';
 import Layout from './components/Layout/Layout';
 import Employee from "./components/Employee/Employee";
 import Transactions from "./components/Transactions/Transactions";
+import EmployeeForm from "./components/Employee/EmployeeForm";
 
 function App() {
   return (
@@ -16,13 +17,19 @@ function App() {
           <Route path="/employee/:userId">
             <Employee/>
           </Route>
+          <Route path="/create-employee" >
+            <EmployeeForm />
+          </Route>
           <Route path="/employees">
             <EmployeeList />
           </Route>
           <Route path="/transactions">
             <Transactions />
           </Route>
-          <Route path="/">
+          <Route path="/home" >
+            <Javapeno />
+          </Route>
+          <Route path="/" >
             <Javapeno />
           </Route>
         </Switch>
