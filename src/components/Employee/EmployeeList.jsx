@@ -2,6 +2,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 
 import EmployeeListItem from './EmployeeListItem';
+import SearchBar from '../Util/SearchBar';
 import {PagerButtons} from "../../util";
 import "./EmployeeList.css"
 
@@ -11,11 +12,12 @@ function EmployeesHeader() {
 }
 
 const EmployeeList = () => {
+    const [responseObj, setResponsObj] = useState({})
     const [employeeList, setEmployeeList] = useState([]);
+    const [filteredEmployeeList, setFilteredEmployeeList] = useState([])
+
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
-
-    const [responseObj, setResponsObj] = useState({})
 
     const fetchEmployeeList = useCallback(async () => {
         const employeeListObj = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
@@ -27,9 +29,16 @@ const EmployeeList = () => {
 
         setMaxPage(employeeListObj.totalPages - 1)
         setEmployeeList(employeeListObj.content)
+        setFilteredEmployeeList(employeeListObj.content)
 
         setResponsObj(employeeListObj)
     }, [page])
+
+    const filterResponseObjByVal = (searchValue) => {
+        setFilteredEmployeeList(employeeList.filter(
+            el => el.name.toLowerCase().includes(searchValue.toLowerCase())
+        ))
+    }
 
     useEffect(() => {
         // find page number in url param, and set it if exists
@@ -48,16 +57,17 @@ const EmployeeList = () => {
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
-                <Table className="employee-list" striped>
+                <SearchBar searchByName={filterResponseObjByVal} />
+                <Table className="employee-list table-hover table-fixed" striped >
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th style={{width: '5rem'}}>#</th>
                         <th>Name</th>
                     </tr>
                     </thead>
                     <tbody>
                     {
-                        employeeList ? employeeList.map((el, index) => <EmployeeListItem data={el} index={index}/>
+                        filteredEmployeeList ? filteredEmployeeList.map((el, index) => <EmployeeListItem data={el} index={index}/>
                         ) : <tr>
                             <td colSpan="2">No employees</td>
                         </tr>
