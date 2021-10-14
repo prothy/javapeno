@@ -49,7 +49,7 @@ const EmployeeForm = (callback, deps) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(formattedValue)
+            body: JSON.stringify(value)
         })
     })
     
