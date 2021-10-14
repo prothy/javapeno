@@ -2,6 +2,7 @@ import React, {useCallback, useState, useEffect} from 'react';
 import {Table} from 'react-bootstrap';
 
 import EmployeeListItem from './EmployeeListItem';
+import SearchBar from '../Util/SearchBar';
 import {PagerButtons} from "../../util";
 import "./EmployeeList.css"
 
@@ -12,6 +13,8 @@ function EmployeesHeader() {
 
 const EmployeeList = () => {
     const [employeeList, setEmployeeList] = useState([]);
+    const [filteredEmployeeList, setFilteredEmployeeList] = useState([])
+
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
 
@@ -27,9 +30,14 @@ const EmployeeList = () => {
 
         setMaxPage(employeeListObj.totalPages - 1)
         setEmployeeList(employeeListObj.content)
+        setFilteredEmployeeList(employeeListObj.content)
 
         setResponsObj(employeeListObj)
     }, [page])
+
+    const filterResponseObjByVal = (searchValue) => {
+        setFilteredEmployeeList(employeeList.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
+    }
 
     useEffect(() => {
         // find page number in url param, and set it if exists
@@ -43,8 +51,9 @@ const EmployeeList = () => {
     return (
         <>
             <EmployeesHeader/>
+            <SearchBar searchByName={filterResponseObjByVal} />
             <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
-            <div className="showText" hidden={responseObj}>Showing
+            <div className="showText">Showing
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
@@ -57,7 +66,7 @@ const EmployeeList = () => {
                     </thead>
                     <tbody>
                     {
-                        employeeList ? employeeList.map((el, index) => <EmployeeListItem data={el} index={index}/>
+                        filteredEmployeeList ? filteredEmployeeList.map((el, index) => <EmployeeListItem data={el} index={index}/>
                         ) : <tr>
                             <td colSpan="2">No employees</td>
                         </tr>
