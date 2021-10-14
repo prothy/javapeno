@@ -44,7 +44,7 @@ const EmployeeList = () => {
         <>
             <EmployeesHeader/>
             <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
-            <div className="showText">Showing
+            <div className="showText" hidden={responseObj}>Showing
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
