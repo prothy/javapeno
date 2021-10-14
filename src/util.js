@@ -1,4 +1,4 @@
-import PaginationButton from "./components/Employee/PaginationButton";
+import PaginationButton from "./components/Util/PaginationButton";
 import React from "react";
 import * as PropTypes from "prop-types";
 
