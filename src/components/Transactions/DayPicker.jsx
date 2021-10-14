@@ -1,6 +1,5 @@
 import React from 'react';
 import Helmet from "react-helmet";
-import moment from 'moment';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import {formatDate, parseDate} from 'react-day-picker/moment';
 import 'react-day-picker/lib/style.css';
@@ -12,10 +11,6 @@ function convert(str) {
         month = ("0" + (date.getMonth() + 1)).slice(-2),
         day = ("0" + date.getDate()).slice(-2);
     return [date.getFullYear(), month, day].join("/");
-}
-
-export function areBothDatesSelected() {
-    return !!(dates.from && dates.to);
 }
 
 export function getFromDate() {
