@@ -58,10 +58,10 @@ const EmployeeList = () => {
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
                 <SearchBar searchByName={filterResponseObjByVal} />
-                <Table className="employee-list" striped>
+                <Table className="employee-list table-hover table-fixed" striped >
                     <thead>
                     <tr>
-                        <th>#</th>
+                        <th style={{width: '5rem'}}>#</th>
                         <th>Name</th>
                     </tr>
                     </thead>
