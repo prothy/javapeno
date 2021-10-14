@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
 
-const EmployeeForm = () => {
+const EmployeeForm = (callback, deps) => {
     const [value, setValue] = useState({
         name: "",
         phoneNumber: "",
@@ -10,17 +10,48 @@ const EmployeeForm = () => {
         city: "",
         postalCode: "",
         street: "",
-        houseNumber: 0,
+        houseNumber: "",
         salary: 0,
         status: "ACTIVE",
         privilege: "USER"
     })
+
+    let formattedValue = {};
     
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        console.log(value);
+        formattedValue = {
+            name: value.name,
+            phoneNumber: value.phoneNumber,
+            email: value.email,
+            address: {
+                country: value.country,
+                city: value.city,
+                postalCode: value.postalCode,
+                street: value.street,
+                houseNumber: value.houseNumber,
+            },
+            salary: value.salary,
+            status: value.status,
+            privilege: value.privilege
+        };
+        console.log(formattedValue);
+        fetchEmployeeForm();
     }
 
+    const addUserURL = "http://localhost:8080/api/user/add";
+
+    const fetchEmployeeForm = useCallback(async () => {
+        let response = await fetch(addUserURL, {
+            method: "POST",
+            credentials: "include",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formattedValue)
+        })
+    })
     
     return (
         <Form onSubmitCapture={onSubmitHandler}>
@@ -49,6 +80,7 @@ const EmployeeForm = () => {
                             <option>Serbia</option>
                             <option>Croatia</option>
                             <option>Slovenia</option>
+                            <option>Wakanda</option>
                         </Form.Select>
                     </FormGroup>
                 </Col>
@@ -75,7 +107,7 @@ const EmployeeForm = () => {
                 <Col>
                     <FormGroup className={"mb-3"} controlId={"houseNumber"}>
                         <FormLabel>House number</FormLabel>
-                        <FormControl type={"number"} placeholder={"1"} onChange={(event => setValue({...value, houseNumber: event.target.value}))}/>
+                        <FormControl type={"text"} placeholder={"1"} onChange={(event => setValue({...value, houseNumber: event.target.value}))}/>
                     </FormGroup>
                 </Col>
             </Row>
