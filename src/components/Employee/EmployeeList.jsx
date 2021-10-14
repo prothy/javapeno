@@ -12,13 +12,12 @@ function EmployeesHeader() {
 }
 
 const EmployeeList = () => {
+    const [responseObj, setResponsObj] = useState({})
     const [employeeList, setEmployeeList] = useState([]);
     const [filteredEmployeeList, setFilteredEmployeeList] = useState([])
 
     const [page, setPage] = useState(0);
     const [maxPage, setMaxPage] = useState(0);
-
-    const [responseObj, setResponsObj] = useState({})
 
     const fetchEmployeeList = useCallback(async () => {
         const employeeListObj = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
@@ -36,7 +35,9 @@ const EmployeeList = () => {
     }, [page])
 
     const filterResponseObjByVal = (searchValue) => {
-        setFilteredEmployeeList(employeeList.filter(el => el.name.toLowerCase().includes(searchValue.toLowerCase())))
+        setFilteredEmployeeList(employeeList.filter(
+            el => el.name.toLowerCase().includes(searchValue.toLowerCase())
+        ))
     }
 
     useEffect(() => {
@@ -51,12 +52,12 @@ const EmployeeList = () => {
     return (
         <>
             <EmployeesHeader/>
-            <SearchBar searchByName={filterResponseObjByVal} />
             <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
             <div className="showText">Showing
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
+                <SearchBar searchByName={filterResponseObjByVal} />
                 <Table className="employee-list" striped>
                     <thead>
                     <tr>
