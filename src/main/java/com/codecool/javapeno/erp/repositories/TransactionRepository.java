@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,6 +18,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, UUID> 
     List<Transaction> findAllByUserId(@Param("id") UUID id, Pageable pageable);
 
     Transaction findTopByUserIdOrderByTimestampDesc(@Param("id") UUID id);
+
+    List<Transaction> findAllByTimestampBetweenAndUserId(@Param("dateFrom") Timestamp dateFrom, @Param("dateTo") Timestamp dateTo, UUID userId);
 
     @Query("select t from Transaction t where year(t.timestamp) = :year and month(t.timestamp) = :month")
     List<Transaction> findAllByYearAndMonth(@Param("year") Integer year, @Param("month") Integer month);

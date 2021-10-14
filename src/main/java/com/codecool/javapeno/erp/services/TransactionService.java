@@ -9,6 +9,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -46,5 +49,25 @@ public class TransactionService {
     private List<Transaction> getAllTransactionsByUser(UUID id, Pageable pageable) {
         if (id == null) return null;
         return transactionRepository.findAllByUserId(id, pageable);
+    }
+
+    public Page<UserTransactionModel> getAllTransactionsByUserBetweenDates(UUID id, String dateFrom, String dateTo) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Timestamp timestampDateFrom = null;
+        Timestamp timestampDateTo = null;
+        try {
+            timestampDateFrom = new Timestamp((dateFormat.parse(dateFrom)).getTime());
+            timestampDateTo = new Timestamp((dateFormat.parse(dateTo)).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        List<Transaction> userTransactions = transactionRepository.findAllByTimestampBetweenAndUserId(timestampDateFrom, timestampDateTo, id);
+        List<UserTransactionModel> userTransactionsModels = new ArrayList<>();
+        for (Transaction userTransaction : userTransactions)
+            userTransactionsModels.add(new UserTransactionModel(userTransaction));
+
+        return new PageImpl<>(userTransactionsModels);
     }
 }
