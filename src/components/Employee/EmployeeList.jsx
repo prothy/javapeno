@@ -1,8 +1,14 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import React, {useCallback, useState, useEffect} from 'react';
+import {Table} from 'react-bootstrap';
 
 import EmployeeListItem from './EmployeeListItem';
-import PaginationButton from './PaginationButton';
+import {PagerButtons} from "../../util";
+import "./EmployeeList.css"
+
+
+function EmployeesHeader() {
+    return <h4 id="employeesHeader">Employees</h4>;
+}
 
 const EmployeeList = () => {
     const [employeeList, setEmployeeList] = useState([]);
@@ -31,29 +37,34 @@ const EmployeeList = () => {
         setPage(parseInt(pageNum));
 
         fetchEmployeeList()
+            .catch(err => console.error(err))
     }, [fetchEmployeeList]);
 
     return (
         <>
-            <div>
-                <PaginationButton pageState={{page, setPage, maxPage}} dir="prev" />
-                <PaginationButton pageState={{page, setPage, maxPage}} dir="next"/>
-            </div>
-            <div>Showing users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out of {parseInt(responseObj.totalElements)}</div>
-            <Table className="employee-list" striped>
-                <thead>
+            <EmployeesHeader/>
+            <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
+            <div className="showText">Showing
+                users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
+                of {parseInt(responseObj.totalElements)}</div>
+            <div className="employees">
+                <Table className="employee-list" striped>
+                    <thead>
                     <tr>
+                        <th>#</th>
                         <th>Name</th>
                     </tr>
-                </thead>
-                <tbody>
-                { 
-                    employeeList ? employeeList.map(el => <EmployeeListItem data={el}/>
-                        
-                    ) : <tr><td>No employees</td></tr>
-                }
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                    {
+                        employeeList ? employeeList.map((el, index) => <EmployeeListItem data={el} index={index}/>
+                        ) : <tr>
+                            <td colSpan="2">No employees</td>
+                        </tr>
+                    }
+                    </tbody>
+                </Table>
+            </div>
         </>
     );
 }
