@@ -45,14 +45,16 @@ const Transactions = () => {
 
     const [responseObj, setResponseObj] = useState({})
 
+    let [fromDate, setFromDate] = useState("");
+    let [toDate, setToDate] = useState("");
 
-    const fetchTransactions = useCallback(async () => {
-        const userTransactions = await fetch(
-            `http://localhost:8080/api/transaction/all?userId=8cb3a14a-e68e-f902-badb-3e9877e6b330&page=${page}`, {
-                method: 'GET',
-                credentials: 'include',
-                mode: 'cors'
-            })
+
+    const fetchTransactions = useCallback(async (url) => {
+        const userTransactions = await fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            mode: 'cors'
+        })
             .then(res => res.json())
             .catch(err => console.error(err))
 
@@ -60,20 +62,25 @@ const Transactions = () => {
         setTransactions(userTransactions.content)
 
         setResponseObj(userTransactions)
-    }, [page])
+    }, [])
 
     useEffect(() => {
         const pageNum = window.location.search ? new URLSearchParams(window.location.search).get('page') : 0;
         setPage(parseInt(pageNum));
-
-        fetchTransactions()
+        let userId = "8cb3a14a-e68e-f902-badb-3e9877e6b330";
+        let url = "http://localhost:8080/api/transaction/all?userId=" + userId;
+        if (fromDate !== "" && toDate !== "") {
+            url = "http://localhost:8080/api/transaction/report?userId=" + userId + "&dateFrom=" + fromDate + "&dateTo=" + toDate + "";
+        }
+        url += `&page=${page}`;
+        fetchTransactions(url)
             .catch(err => console.error(err))
-    }, [fetchTransactions]);
+    }, [fetchTransactions, page, fromDate, toDate]);
 
     return (
         <>
             <TransactionsHeader/>
-            {/*<DayPicker/>*/}
+            <DayPicker setFromDate={setFromDate} setToDate={setToDate}/>
             <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
             <div className="showText">Showing
                 transactions {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
