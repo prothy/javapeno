@@ -70,7 +70,8 @@ const Transactions = () => {
         let userId = "8cb3a14a-e68e-f902-badb-3e9877e6b330";
         let url = "http://localhost:8080/api/transaction/all?userId=" + userId;
         if (fromDate !== "" && toDate !== "") {
-            url = "http://localhost:8080/api/transaction/report?userId=" + userId + "&dateFrom=" + fromDate + "&dateTo=" + toDate + "";
+            url = "http://localhost:8080/api/transaction/report?userId=" +
+                userId + "&dateFrom=" + fromDate + "&dateTo=" + toDate + "";
         }
         url += `&page=${page}`;
         fetchTransactions(url)

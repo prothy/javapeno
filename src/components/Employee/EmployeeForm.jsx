@@ -58,7 +58,7 @@ const EmployeeForm = (callback, deps) => {
     }, [history])
     
     return (
-        <Form onSubmitCapture={onSubmitHandler}>
+        <Form onSubmitCapture={onSubmitHandler} style={{marginBottom: "100px"}}>
             <FormGroup className={"mb-3"} controlId={"name"} >
                 <FormLabel>Full name</FormLabel>
                 <FormControl type={"text"}  placeholder={"John Doe"} onChange={(event => setValue({...value, name: event.target.value}))} />
