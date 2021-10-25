@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const EmployeeForm = (callback, deps) => {
     const [value, setValue] = useState({
@@ -16,6 +16,7 @@ const EmployeeForm = (callback, deps) => {
         status: "ACTIVE",
         privilege: "USER"
     })
+    const history = useHistory();
 
     let formattedValue = {};
     
@@ -52,8 +53,9 @@ const EmployeeForm = (callback, deps) => {
             },
             body: JSON.stringify(formattedValue)
         })
+        history.push("/employees")
 
-    })
+    }, [history])
     
     return (
         <Form onSubmitCapture={onSubmitHandler}>
