@@ -17,8 +17,8 @@ public class Address {
 
     @ApiModelProperty(notes = "The unique id of the user address")
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @GeneratedValue
+    @GenericGenerator(name="postgres-uuid", strategy = "uuid")
     private UUID id;
 
     @ApiModelProperty(notes = "The number of the House")
