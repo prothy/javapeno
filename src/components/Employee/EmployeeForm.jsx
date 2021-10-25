@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
+import {Redirect} from "react-router-dom";
 
 const EmployeeForm = (callback, deps) => {
     const [value, setValue] = useState({
@@ -36,12 +37,12 @@ const EmployeeForm = (callback, deps) => {
             privilege: value.privilege
         };
         console.log(formattedValue);
-        fetchEmployeeForm();
+        fetchEmployeeForm(formattedValue);
     }
 
     const addUserURL = "http://localhost:8080/api/user/add";
 
-    const fetchEmployeeForm = useCallback(async () => {
+    const fetchEmployeeForm = useCallback(async (formattedValue) => {
         let response = await fetch(addUserURL, {
             method: "POST",
             credentials: "include",
@@ -49,8 +50,9 @@ const EmployeeForm = (callback, deps) => {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(value)
+            body: JSON.stringify(formattedValue)
         })
+
     })
     
     return (
