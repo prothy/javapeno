@@ -81,6 +81,7 @@ public class UserService {
     }
 
     public List<Holiday> getHolidaysByIdInRange(UUID userId, LocalDate from, LocalDate to) {
+        if (userRepository.findById(userId).isEmpty()) throw new NoSuchElementException("There is no such a user!");
         if (from == null && to == null) return holidayRepository.findAllByUserId(userId);
 
         if (from == null) from = LocalDate.of(1970, 1, 1);
