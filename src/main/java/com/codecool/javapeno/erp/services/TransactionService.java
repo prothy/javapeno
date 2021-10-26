@@ -3,6 +3,7 @@ package com.codecool.javapeno.erp.services;
 import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.repositories.TransactionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,14 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionService {
-
     private final TransactionRepository transactionRepository;
-
-    @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
 
     public Page<UserTransactionModel> getUserTransactionsById(UUID id, Pageable pageable) {
         List<UserTransactionModel> userTransactions = new ArrayList<>();

@@ -5,6 +5,7 @@ import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.entities.UserStatus;
 import com.codecool.javapeno.erp.repositories.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,15 +20,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final HolidayRepository holidayRepository;
 
-    @Autowired
-    public UserService(UserRepository userRepository, HolidayRepository holidayRepository) {
-        this.userRepository = userRepository;
-        this.holidayRepository = holidayRepository;
-    }
 
     public User getUserById(UUID userId) {
         Optional<User> user = userRepository.findById(userId);
