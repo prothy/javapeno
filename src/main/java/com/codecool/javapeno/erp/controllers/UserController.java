@@ -171,13 +171,13 @@ public class UserController {
             value = "Add holiday",
             notes = "Add holiday to holiday book by user id")
 
-    public void addHolidayToUser(
+    public String addHolidayToUser(
             @ApiParam(value = "Id value from the user", required = true)
             @PathVariable UUID id,
             @ApiParam(value = "From - to dates for the holiday", required = true)
             @RequestBody Holiday holiday) {
 
-        userService.addHolidayToUser(id, holiday);
+        return userService.addHolidayToUser(id, holiday);
     }
 
     /**
