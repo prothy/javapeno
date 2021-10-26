@@ -51,8 +51,9 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-    public void addNewUser(User user) {
+    public String addNewUser(User user) {
         userRepository.save(user);
+        return "New user saved";
     }
 
     public void deactivateUser(UUID id) {
