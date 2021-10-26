@@ -37,19 +37,14 @@ public class UserService {
         return maybeUser.get();
     }
 
-    public ResponseEntity<String> updateUserById(UUID userId, User updatedUserData) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body("User is not found");
+    public String updateUserById(UUID userId, User updatedUserData) {
+        Optional<User> maybeUser = userRepository.findById(userId);
+        if (maybeUser.isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
         }
-
         updatedUserData.setId(userId);
         userRepository.save(updatedUserData);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body("User data updated");
+        return "User data updated";
     }
 
     public Page<User> getAllUsers(Pageable pageable) {
