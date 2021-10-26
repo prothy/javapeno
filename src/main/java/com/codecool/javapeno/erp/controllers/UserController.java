@@ -70,7 +70,7 @@ public class UserController {
             notes = "Updating user data in the user book",
             response = ResponseEntity.class)
 
-    public ResponseEntity<String> updateUserById(
+    public String updateUserById(
             @ApiParam(value = "ID value for the user", required = true)
             @PathVariable UUID id,
             @ApiParam(value = "All user data for to update")
