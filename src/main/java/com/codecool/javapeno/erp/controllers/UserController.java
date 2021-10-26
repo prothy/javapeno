@@ -1,6 +1,7 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Holiday;
+import com.codecool.javapeno.erp.services.EmailSenderService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final EmailSenderService emailSenderService;
 
     /**
      * Returns given user's info
@@ -182,6 +184,12 @@ public class UserController {
             notes = "This end point have a pageable spring boot class")
 
     public Page<User> getUsers(Pageable pageable) {
+        /*
+        Page<User> users =  userService.getAllUsers(pageable);
+        User user = users.getContent().get(0);
+        user.setEmail("javapeno2021@gmail.com");
+        emailSenderService.sendEmail(user);
+        */
         return userService.getAllUsers(pageable);
     }
 }

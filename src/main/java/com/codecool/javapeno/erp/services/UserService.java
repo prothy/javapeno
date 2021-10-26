@@ -22,11 +22,14 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final HolidayRepository holidayRepository;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
-    public UserService(UserRepository userRepository, HolidayRepository holidayRepository) {
+    public UserService(UserRepository userRepository, HolidayRepository holidayRepository,
+                       EmailSenderService emailSenderService) {
         this.userRepository = userRepository;
         this.holidayRepository = holidayRepository;
+        this.emailSenderService = emailSenderService;
     }
 
     public User getUserById(UUID userId) {
@@ -58,6 +61,7 @@ public class UserService {
 
     public void addNewUser(User user) {
         userRepository.save(user);
+        //emailSenderService.sendEmail(user);
     }
 
     public void deactivateUser(UUID id) {
