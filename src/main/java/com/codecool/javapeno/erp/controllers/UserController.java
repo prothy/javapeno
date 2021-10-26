@@ -89,11 +89,11 @@ public class UserController {
             value = "Deactivate user by id",
             notes = "Change user status to deleted")
 
-    public void deactivateUser(
+    public String deactivateUser(
             @ApiParam(value = "Id value for the user", required = true)
             @PathVariable UUID id) {
 
-        userService.deactivateUser(id);
+        return userService.deactivateUser(id);
     }
 
     /**
