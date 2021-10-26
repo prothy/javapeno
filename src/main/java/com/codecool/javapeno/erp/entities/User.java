@@ -6,8 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,8 +18,6 @@ import java.util.UUID;
 @ApiModel(description = "Details about the user")
 @Entity
 @Table(name = "users")
-@Getter
-@Setter
 public class User {
 
     @ApiModelProperty(notes = "The unique id of the user")
@@ -70,4 +66,81 @@ public class User {
 
     @ApiModelProperty(notes = "The user monthly salary")
     private BigDecimal salary;
+
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public Timestamp getCreatedDate() {
+        return createdDate;
+    }
+
+    public Timestamp getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public UserPrivilege getPrivilege() {
+        return privilege;
+    }
+
+    public BigDecimal getSalary() {
+        return salary;
+    }
+
+    public void setUpdatedDate(Timestamp updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public void setPrivilege(UserPrivilege privilege) {
+        this.privilege = privilege;
+    }
+
+    public void setSalary(BigDecimal salary) {
+        this.salary = salary;
+    }
 }
