@@ -67,13 +67,17 @@ public class UserService {
         return "User deactivated";
     }
 
-    public void updateUser(User updatedUser) {
-        User user = userRepository.findById(updatedUser.getId())
-                .orElseThrow(() -> new IllegalStateException("User not found!"));
+    public String updateUser(User updatedUser) {
+        Optional<User> maybeUser = userRepository.findById(updatedUser.getId());
+        if (maybeUser.isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
+        }
+        User user = maybeUser.get();
 
         if (!Objects.equals(user.getName(), updatedUser.getName())) {
             user.setName(updatedUser.getName());
         }
+        return "User data change approved";
     }
 
     public List<Holiday> getHolidaysByIdInRange(UUID userId, LocalDate from, LocalDate to) {
