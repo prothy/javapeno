@@ -25,11 +25,9 @@ public class UserAuthentication {
     @JoinColumn(name = "users_id", referencedColumnName = "id")
     private User user;
 
-    @Column
     @NotNull
-    private String loginName;
+    private String username;
 
-    @Column
     @NotNull
     private String password;
 }
