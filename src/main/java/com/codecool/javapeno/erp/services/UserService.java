@@ -90,9 +90,10 @@ public class UserService {
         return holidayRepository.findAllByUserIdBetween(userId, from, to);
     }
 
-    public void addHolidayToUser(UUID userId, Holiday holiday) {
+    public String addHolidayToUser(UUID userId, Holiday holiday) {
         User user = getUserById(userId);
         holiday.setUser(user);
         holidayRepository.save(holiday);
+        return "New holiday added";
     }
 }
