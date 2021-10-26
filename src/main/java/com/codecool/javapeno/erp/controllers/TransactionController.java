@@ -3,6 +3,7 @@ package com.codecool.javapeno.erp.controllers;
 import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.services.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,14 +14,9 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/transaction")
+@RequiredArgsConstructor
 public class TransactionController {
-
     private final TransactionService transactionService;
-
-    @Autowired
-    public TransactionController(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
 
     @GetMapping("/all")
     public Page<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId, Pageable pageable) {
