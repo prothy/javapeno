@@ -129,13 +129,16 @@ public class UserController {
             value = "Approve user data to update",
             notes = "Accept the submitted user data")
 
-    public void approveUpdatedUser(
+    public String approveUpdatedUser(
             @ApiParam(value = "User data to modify", required = true)
             @RequestBody User modifiedUser,
             @ApiParam(value = "true/false parameter to accept the modification")
             @RequestBody boolean approved) {
-
-        if (approved) userService.updateUser(modifiedUser);
+        String message = "User data change not approved";
+        if (approved) {
+            message = userService.updateUser(modifiedUser);
+        }
+        return message;
     }
 
     /**
