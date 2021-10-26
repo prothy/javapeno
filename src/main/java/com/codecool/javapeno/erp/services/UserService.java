@@ -56,11 +56,15 @@ public class UserService {
         return "New user saved";
     }
 
-    public void deactivateUser(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("User with id " + id + " does not exist!"));
+    public String deactivateUser(UUID id) {
+        Optional<User> maybeUser = userRepository.findById(id);
+        if (maybeUser.isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
+        }
+        User user = maybeUser.get();
         user.setStatus(UserStatus.DELETED);
         userRepository.save(user);
+        return "User deactivated";
     }
 
     public void updateUser(User updatedUser) {
