@@ -30,11 +30,11 @@ public class UserService {
     }
 
     public User getUserById(UUID userId) {
-        Optional<User> user = userRepository.findById(userId);
-        if (user.isEmpty()) {
-            return null;
+        Optional<User> maybeUser = userRepository.findById(userId);
+        if (maybeUser.isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
         }
-        return user.get();
+        return maybeUser.get();
     }
 
     public ResponseEntity<String> updateUserById(UUID userId, User updatedUserData) {
