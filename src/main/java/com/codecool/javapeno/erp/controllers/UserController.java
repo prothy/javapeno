@@ -68,7 +68,7 @@ public class UserController {
     @ApiOperation(
             value = "Update user data by id",
             notes = "Updating user data in the user book",
-            response = ResponseEntity.class)
+            response = String.class)
 
     public String updateUserById(
             @ApiParam(value = "ID value for the user", required = true)
@@ -87,7 +87,8 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ApiOperation(
             value = "Deactivate user by id",
-            notes = "Change user status to deleted")
+            notes = "Change user status to deleted",
+            response = String.class)
 
     public String deactivateUser(
             @ApiParam(value = "Id value for the user", required = true)
@@ -110,7 +111,8 @@ public class UserController {
     @PostMapping("/add")
     @ApiOperation(
             value = "Create new user",
-            notes = "Add new user to the users book")
+            notes = "Add new user to the users book",
+            response = String.class)
 
     public String addNewUser(
             @ApiParam(value = "All parameter for create new user", required = true)
@@ -127,7 +129,8 @@ public class UserController {
     @PostMapping("/approve")
     @ApiOperation(
             value = "Approve user data to update",
-            notes = "Accept the submitted user data")
+            notes = "Accept the submitted user data",
+            response = String.class)
 
     public String approveUpdatedUser(
             @ApiParam(value = "User data to modify", required = true)
@@ -169,7 +172,8 @@ public class UserController {
     @PostMapping("/{id}/holidays/add")
     @ApiOperation(
             value = "Add holiday",
-            notes = "Add holiday to holiday book by user id")
+            notes = "Add holiday to holiday book by user id",
+            response = String.class)
 
     public String addHolidayToUser(
             @ApiParam(value = "Id value from the user", required = true)
@@ -186,7 +190,8 @@ public class UserController {
     @GetMapping("/all")
     @ApiOperation(
             value = "Find all user (pageable)",
-            notes = "This end point have a pageable spring boot class")
+            notes = "This end point have a pageable spring boot class",
+            response = Page.class)
 
     public Page<User> getUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
