@@ -112,11 +112,11 @@ public class UserController {
             value = "Create new user",
             notes = "Add new user to the users book")
 
-    public void addNewUser(
+    public String addNewUser(
             @ApiParam(value = "All parameter for create new user", required = true)
             @RequestBody User user) {
 
-        userService.addNewUser(user);
+        return userService.addNewUser(user);
     }
 
     /**
