@@ -5,7 +5,7 @@ import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.entities.UserStatus;
 import com.codecool.javapeno.erp.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,15 +14,10 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final HolidayRepository holidayRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository, HolidayRepository holidayRepository) {
-        this.userRepository = userRepository;
-        this.holidayRepository = holidayRepository;
-    }
 
     public User getUserById(UUID userId) {
         Optional<User> maybeUser = userRepository.findById(userId);
