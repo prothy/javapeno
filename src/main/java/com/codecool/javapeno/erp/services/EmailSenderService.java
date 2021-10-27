@@ -5,6 +5,7 @@ import com.codecool.javapeno.erp.entities.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,15 +16,14 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class EmailSenderService {
 
-    @Autowired
     private JavaMailSender mailSender;
-
-    @Autowired
     private Configuration config;
 
     public void sendEmail(User user, Map<String, Object> model) {
@@ -51,8 +51,11 @@ public class EmailSenderService {
             response.setMessage("Mail Sending failure : "+e.getMessage());
             response.setStatus(Boolean.FALSE);
         }
-
-        //return response;
     }
 
+    public void sendEmail(User user) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("user", user);
+        sendEmail(user, model);
+    }
 }
