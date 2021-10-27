@@ -3,6 +3,7 @@ package com.codecool.javapeno.erp.services;
 import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.repositories.TransactionRepository;
+import com.codecool.javapeno.erp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
