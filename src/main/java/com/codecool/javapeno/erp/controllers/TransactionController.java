@@ -20,13 +20,12 @@ public class TransactionController {
 
     @GetMapping("/all")
     public Page<UserTransactionModel> getUserTransactions(@RequestParam(value = "userId", required = false) UUID userId, Pageable pageable) {
-        if (userId == null) return null;
+
         return transactionService.getUserTransactionsById(userId, pageable);
     }
 
     @GetMapping("/top")
     public UserTransactionModel getUsersTopTransactions(@RequestParam(value = "userId", required = false) UUID userId) {
-        if (userId == null) return null;
 
         return transactionService.getUsersTopTransactionsById(userId);
     }
