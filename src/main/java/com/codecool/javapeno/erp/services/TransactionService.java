@@ -54,6 +54,12 @@ public class TransactionService {
         return transactionRepository.findAllByUserId(id, pageable);
     }
 
+    private void isUserExist(UUID id) {
+        if (id == null || userRepository.findById(id).isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
+        }
+    }
+
     public Page<UserTransactionModel> getAllTransactionsByUserBetweenDates(UUID id, String dateFrom, String dateTo) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
