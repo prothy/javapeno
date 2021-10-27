@@ -52,7 +52,6 @@ public class TransactionService {
     }
 
     private List<Transaction> getAllTransactionsByUser(UUID id, Pageable pageable) {
-        if (id == null) return null;
         return transactionRepository.findAllByUserId(id, pageable);
     }
 
@@ -73,7 +72,6 @@ public class TransactionService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         List<Transaction> userTransactions = transactionRepository.findAllByTimestampBetweenAndUserId(timestampDateFrom, timestampDateTo, id);
         List<UserTransactionModel> userTransactionsModels = new ArrayList<>();
         for (Transaction userTransaction : userTransactions)
