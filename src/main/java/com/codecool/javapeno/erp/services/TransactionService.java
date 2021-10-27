@@ -63,7 +63,7 @@ public class TransactionService {
     }
 
     public Page<UserTransactionModel> getAllTransactionsByUserBetweenDates(UUID id, String dateFrom, String dateTo) {
-
+        isUserExist(id);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Timestamp timestampDateFrom = null;
         Timestamp timestampDateTo = null;
