@@ -28,6 +28,7 @@ public class TransactionService {
     }
 
     public Page<UserTransactionModel> getUserTransactionsById(UUID id, Pageable pageable) {
+        isUserExist(id);
         List<UserTransactionModel> userTransactions = new ArrayList<>();
         for (Transaction transaction : getAllTransactionsByUser(id, pageable))
             userTransactions.add(new UserTransactionModel(transaction));
