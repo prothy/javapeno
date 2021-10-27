@@ -13,7 +13,7 @@ function EmployeeHeader() {
 
 function EditButton() {
     return <div id="editEmployeeButton">
-        <Button variant="dark">Edit</Button>
+        <Button variant="primary">Edit</Button>
     </div>;
 }
 
@@ -52,7 +52,7 @@ function Address({address}) {
 
 function ModifyButton() {
     return <div id="modifyEmployeeButton">
-        <Button variant="dark">Modify data</Button>
+        <Button variant="primary">Modify data</Button>
     </div>;
 }
 
