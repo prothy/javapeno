@@ -22,8 +22,9 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Autowired
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
         this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
     }
 
     public Page<UserTransactionModel> getUserTransactionsById(UUID id, Pageable pageable) {
