@@ -37,6 +37,7 @@ public class TransactionService {
     }
 
     public UserTransactionModel getUsersTopTransactionsById(UUID id) {
+        isUserExist(id);
         return new UserTransactionModel(transactionRepository.findTopByUserIdOrderByTimestampDesc(id));
     }
 
