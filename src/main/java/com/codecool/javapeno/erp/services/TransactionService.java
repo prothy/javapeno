@@ -17,6 +17,7 @@ import java.util.*;
 @Service
 public class TransactionService {
 
+    private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
 
     @Autowired
