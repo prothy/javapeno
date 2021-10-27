@@ -1,11 +1,12 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Holiday;
+import com.codecool.javapeno.erp.models.ErrorModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.services.UserService;
@@ -15,16 +16,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
-@RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final ErrorModel errorModel;
+
+    @Autowired
+    public UserController(UserService userService, ErrorModel errorModel) {
+        this.userService = userService;
+        this.errorModel = errorModel;
+    }
 
     /**
      * Returns given user's info
@@ -189,5 +199,21 @@ public class UserController {
 
     public Page<User> getUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ErrorModel notValidUUID() {
+        errorModel.setErrorMessage("Not valid id");
+        errorModel.setTime(LocalDateTime.now());
+        errorModel.setStatus(HttpStatus.NOT_FOUND);
+        return errorModel;
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorModel userNotFound(Exception exception) {
+        errorModel.setErrorMessage(exception.getMessage());
+        errorModel.setTime(LocalDateTime.now());
+        errorModel.setStatus(HttpStatus.NOT_FOUND);
+        return errorModel;
     }
 }
