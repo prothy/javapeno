@@ -20,10 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class EmailSenderService {
 
+    @Autowired
     private JavaMailSender mailSender;
+
+    @Autowired
     private Configuration config;
 
     public void sendEmail(User user, Map<String, Object> model) {
@@ -43,12 +45,11 @@ public class EmailSenderService {
             helper.setText(html, true);
 
             mailSender.send(message);
-            System.out.println("email sent");
             response.setMessage("mail send to : " + user.getEmail());
             response.setStatus(Boolean.TRUE);
 
         } catch (MessagingException | IOException | TemplateException e) {
-            response.setMessage("Mail Sending failure : "+e.getMessage());
+            response.setMessage("Mail Sending failure : " + e.getMessage());
             response.setStatus(Boolean.FALSE);
         }
     }

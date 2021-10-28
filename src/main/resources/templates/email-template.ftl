@@ -16,7 +16,7 @@
                             color: #000000; padding: 0px 15px 10px 15px;">
 
                         <div style="font-size: 48px; color:blue;">
-                            <b>Welcome ${user.name}</b>
+                            <b>Welcome ${user.name}!</b>
                         </div>
 
                         <div style="font-size: 14px; color: #555100;">
