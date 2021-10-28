@@ -61,7 +61,7 @@ function ModifyButton() {
 }
 
 let Employee = () => {
-    let [userData, setData] = useState([]);
+    let [userData, setData] = useState({});
     const {userId} = useParams();
 
     let getUserURL = "http://localhost:8080/api/user/";
