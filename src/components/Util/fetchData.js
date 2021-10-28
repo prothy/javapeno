@@ -18,3 +18,15 @@ export const fetchJsonDataPostIncludeCors = async function (url, data) {
         },
     }).catch(err => console.error(err));
 };
+
+export const fetchJsonDataPutIncludeCors = async function (url, data) {
+    fetch(url, {
+        method: 'PUT',
+        body: data,
+        credentials: 'include',
+        mode: 'cors',
+        headers: {
+            "Content-Type": "application/json"
+        },
+    }).catch(err => console.error(err));
+};
