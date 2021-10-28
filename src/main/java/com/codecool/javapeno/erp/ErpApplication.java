@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
-@SpringBootApplication
+@SpringBootApplication()
 @EnableSwagger2
 public class ErpApplication {
 
