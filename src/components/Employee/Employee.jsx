@@ -73,7 +73,7 @@ let Employee = () => {
                 setData(data);
             })
             .catch(err => console.error(err));
-    }, [fetchDataGetIncludeCors, getUserURL, userId]);
+    }, [getUserURL, userId]);
 
     return (
         <div className="employee">

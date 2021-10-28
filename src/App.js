@@ -18,7 +18,7 @@ function App() {
             <Employee/>
           </Route>
           <Route path="/create-employee" >
-            <EmployeeForm />
+            <EmployeeForm isEdit={false}/>
           </Route>
           <Route path="/edit-employee" >
             <EmployeeForm isEdit={true} />
