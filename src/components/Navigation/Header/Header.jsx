@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Navbar} from "react-bootstrap";
+
 import LoginButton from "../Login/LoginButton";
 import LoginModal from "../Login/LoginModal";
-import logo from "../../../images/javapeno.png"
+import { ReactComponent as Logo } from "../../../images/jalapeno.svg"
+
+import "./Header.css"
 
 const Header = () => {
     const [show, setShow] = useState(false);
@@ -14,21 +17,18 @@ const Header = () => {
     return (
         <>
             <header>
-                <Navbar bg="dark" variant="dark">
+                <nav>
                     <Container>
-                        <img src={logo} style={{width: 40, height: 40}} alt=""/>
-                        <Navbar.Toggle />
-
-                        <Navbar.Collapse className="justify-content-end" style={{fontSize: 40, color: "white"}}>
-                                Javapeño
-                        </Navbar.Collapse>
-
-                        <Navbar.Collapse className="justify-content-end">
-                           <LoginButton handleShow={handleShow} />
-                        </Navbar.Collapse>
-
+                        <span className="nav-logo">
+                            <h1>Javapeño</h1>
+                            <h1>ERP System</h1>
+                            <Logo/>
+                        </span>
+                        <span>
+                            <LoginButton handleShow={handleShow} />
+                        </span>
                     </Container>
-                </Navbar>
+                </nav>
             </header>
             <LoginModal show={show} handleClose={handleClose} />
         </>
