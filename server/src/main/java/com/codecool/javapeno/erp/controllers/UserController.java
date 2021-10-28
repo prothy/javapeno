@@ -1,12 +1,13 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Holiday;
+import com.codecool.javapeno.erp.services.EmailSenderService;
+import com.codecool.javapeno.erp.models.ErrorModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.services.UserService;
@@ -16,20 +17,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-
     private final UserService userService;
+    private final ErrorModel errorModel;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ErrorModel errorModel) {
         this.userService = userService;
+        this.errorModel = errorModel;
     }
 
     /**
@@ -68,9 +73,9 @@ public class UserController {
     @ApiOperation(
             value = "Update user data by id",
             notes = "Updating user data in the user book",
-            response = ResponseEntity.class)
+            response = String.class)
 
-    public ResponseEntity<String> updateUserById(
+    public String updateUserById(
             @ApiParam(value = "ID value for the user", required = true)
             @PathVariable UUID id,
             @ApiParam(value = "All user data for to update")
@@ -87,13 +92,14 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ApiOperation(
             value = "Deactivate user by id",
-            notes = "Change user status to deleted")
+            notes = "Change user status to deleted",
+            response = String.class)
 
-    public void deactivateUser(
+    public String deactivateUser(
             @ApiParam(value = "Id value for the user", required = true)
             @PathVariable UUID id) {
 
-        userService.deactivateUser(id);
+        return userService.deactivateUser(id);
     }
 
     /**
@@ -110,13 +116,27 @@ public class UserController {
     @PostMapping("/add")
     @ApiOperation(
             value = "Create new user",
-            notes = "Add new user to the users book")
+            notes = "Add new user to the users book",
+            response = String.class)
 
-    public void addNewUser(
+    public String addNewUser(
             @ApiParam(value = "All parameter for create new user", required = true)
             @RequestBody User user) {
 
-        userService.addNewUser(user);
+        return userService.addNewUser(user);
+    }
+
+    @PutMapping("/update")
+    @ApiOperation(
+            value = "Update user data by id",
+            notes = "Updating user data in the user book",
+            response = String.class)
+
+    public String updateUser(
+            @ApiParam(value = "The user data for to update")
+            @RequestBody User updatedUserData) {
+
+        return userService.updateUser(updatedUserData);
     }
 
     /**
@@ -127,15 +147,19 @@ public class UserController {
     @PostMapping("/approve")
     @ApiOperation(
             value = "Approve user data to update",
-            notes = "Accept the submitted user data")
+            notes = "Accept the submitted user data",
+            response = String.class)
 
-    public void approveUpdatedUser(
+    public String approveUpdatedUser(
             @ApiParam(value = "User data to modify", required = true)
             @RequestBody User modifiedUser,
             @ApiParam(value = "true/false parameter to accept the modification")
             @RequestBody boolean approved) {
-
-        if (approved) userService.updateUser(modifiedUser);
+        String message = "User data change not approved";
+        if (approved) {
+            message = userService.updateUser(modifiedUser);
+        }
+        return message;
     }
 
     /**
@@ -166,15 +190,16 @@ public class UserController {
     @PostMapping("/{id}/holidays/add")
     @ApiOperation(
             value = "Add holiday",
-            notes = "Add holiday to holiday book by user id")
+            notes = "Add holiday to holiday book by user id",
+            response = String.class)
 
-    public void addHolidayToUser(
+    public String addHolidayToUser(
             @ApiParam(value = "Id value from the user", required = true)
             @PathVariable UUID id,
             @ApiParam(value = "From - to dates for the holiday", required = true)
             @RequestBody Holiday holiday) {
 
-        userService.addHolidayToUser(id, holiday);
+        return userService.addHolidayToUser(id, holiday);
     }
 
     /**
@@ -183,9 +208,26 @@ public class UserController {
     @GetMapping("/all")
     @ApiOperation(
             value = "Find all user (pageable)",
-            notes = "This end point have a pageable spring boot class")
+            notes = "This end point have a pageable spring boot class",
+            response = Page.class)
 
     public Page<User> getUsers(Pageable pageable) {
         return userService.getAllUsers(pageable);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ErrorModel notValidUUID() {
+        errorModel.setErrorMessage("Not valid id");
+        errorModel.setTime(LocalDateTime.now());
+        errorModel.setStatus(HttpStatus.NOT_FOUND);
+        return errorModel;
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorModel userNotFound(Exception exception) {
+        errorModel.setErrorMessage(exception.getMessage());
+        errorModel.setTime(LocalDateTime.now());
+        errorModel.setStatus(HttpStatus.NOT_FOUND);
+        return errorModel;
     }
 }

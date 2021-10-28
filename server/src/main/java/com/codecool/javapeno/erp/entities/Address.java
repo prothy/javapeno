@@ -2,6 +2,9 @@ package com.codecool.javapeno.erp.entities;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -13,6 +16,9 @@ import java.util.UUID;
 
 @ApiModel(description = "Details about the user address")
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Address {
 
     @ApiModelProperty(notes = "The unique id of the user address")
@@ -40,47 +46,4 @@ public class Address {
     @NotNull
     private Locale country;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getHouseNumber() {
-        return houseNumber;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public Locale getCountry() {
-        return country;
-    }
-
-    public void setHouseNumber(String houseNumber) {
-        this.houseNumber = houseNumber;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public void setCountry(Locale country) {
-        this.country = country;
-    }
 }
