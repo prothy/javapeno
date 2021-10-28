@@ -88,7 +88,7 @@ let ChangePassword = () => {
                     setData(data);
                 })
                 .catch(err => console.error(err));
-        }, [fetchDataGetIncludeCors]);
+        }, [fetchDataGetIncludeCors, userId]);
 
         return (
             <div className="changePassword">

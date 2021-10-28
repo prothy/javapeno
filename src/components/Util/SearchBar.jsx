@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputGroup, FormControl, Button } from 'react-bootstrap'
+import { InputGroup, FormControl } from 'react-bootstrap'
 
 const SearchBar = ({searchByName}) => {
 
