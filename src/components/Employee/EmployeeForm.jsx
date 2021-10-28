@@ -45,7 +45,12 @@ const EmployeeForm = (props, callback, deps) => {
             privilege: value.privilege
         };
         console.log(formattedValue);
-        fetchEmployeeForm(formattedValue).catch(err => console.error(err));
+
+        if (props.isEdit) {
+            putEmployeeForm(formattedValue).catch(err => console.error(err));
+        } else {
+            postEmployeeForm(formattedValue).catch(err => console.error(err));
+        }
     }
 
     const addUserURL = "http://localhost:8080/api/user/add";
