@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Employee.css"
 import * as PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
 import {numberFormat} from "../../util.js"
+import {fetchDataGetIncludeCors} from "../Util/fetchData";
 import {Button} from "react-bootstrap";
 
 function EmployeeHeader() {
@@ -58,24 +59,17 @@ function ModifyButton() {
 
 let Employee = () => {
     let [userData, setData] = useState([]);
+    let getUserURL = "http://localhost:8080/api/user/";
     const {userId} = useParams();
 
-    let getUserURL = "http://localhost:8080/api/user/";
-
-    let fetchEmployeeById = useCallback(async () => {
-        let userData = await fetch(getUserURL + userId, {
-            method: 'GET',
-            credentials: 'include',
-            mode: 'cors'
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        setData(userData)
-    }, [getUserURL, userId])
-
     useEffect(() => {
-        fetchEmployeeById().catch(err => console.error(err));
-    }, [fetchEmployeeById]);
+        let userDataFromServer = fetchDataGetIncludeCors(getUserURL + userId);
+        userDataFromServer
+            .then((data) => {
+                setData(data);
+            })
+            .catch(err => console.error(err));
+    }, [fetchDataGetIncludeCors]);
 
     return (
         <div className="employee">
