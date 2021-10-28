@@ -81,10 +81,10 @@ const EmployeeForm = (props) => {
         <div className={'employeeForm'}>
             <EmployeeFormHeader isEdit={props.isEdit}/>
             <Form onSubmitCapture={onSubmitHandler} style={{marginBottom: "100px"}}>
-                <Table striped bordered hover>
+                <Table>
                     <tbody>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Personal info</th>
+                        <th className="form-group-header" colSpan={3}>Personal info</th>
                     </tr>
                     <tr>
                         <td>
@@ -116,7 +116,7 @@ const EmployeeForm = (props) => {
                         </td>
                     </tr>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Address</th>
+                        <th className="form-group-header caption" colSpan={3}>Address</th>
                     </tr>
                     <tr>
                         <td>
@@ -177,7 +177,7 @@ const EmployeeForm = (props) => {
                         </td>
                     </tr>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Employee data</th>
+                        <th className="form-group-header caption" colSpan={3}>Employee data</th>
                     </tr>
                     <tr>
                         <td>
@@ -225,6 +225,6 @@ const EmployeeForm = (props) => {
             </Form>
         </div>
     )
-}
+} 
 
 export default EmployeeForm;
