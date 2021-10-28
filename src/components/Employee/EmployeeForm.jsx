@@ -77,10 +77,10 @@ const EmployeeForm = (props, callback, deps) => {
         <div className={'employeeForm'}>
             <EmployeeFormHeader/>
             <Form onSubmitCapture={onSubmitHandler} style={{marginBottom: "100px"}}>
-                <Table striped bordered hover>
+                <Table>
                     <tbody>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Personal info</th>
+                        <th className="form-group-header" colSpan={3}>Personal info</th>
                     </tr>
                     <tr>
                         <td>
@@ -109,7 +109,7 @@ const EmployeeForm = (props, callback, deps) => {
                         </td>
                     </tr>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Address</th>
+                        <th className="form-group-header caption" colSpan={3}>Address</th>
                     </tr>
                     <tr>
                         <td>
@@ -169,7 +169,7 @@ const EmployeeForm = (props, callback, deps) => {
                         </td>
                     </tr>
                     <tr>
-                        <th id={'submitNewEmployeeRow'} colSpan={3}>Employee data</th>
+                        <th className="form-group-header caption" colSpan={3}>Employee data</th>
                     </tr>
                     <tr>
                         <td>

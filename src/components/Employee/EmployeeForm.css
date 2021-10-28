@@ -1,3 +1,5 @@
+@import "../../_variables.css";
+
 .employeeForm{
     width: 70%;
     margin-left: auto;
@@ -10,6 +12,6 @@
     text-decoration: underline;
 }
 
-#submitNewEmployeeRow {
-    text-align: center;
+.form-group-header {
+    background: var(--baby-blue)!important; /*lord forgive me*/
 }
