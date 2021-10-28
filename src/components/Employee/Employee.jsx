@@ -84,7 +84,7 @@ let Employee = () => {
     return (
         <div className="employee">
             <EmployeeHeader/>
-            <EditButton/>
+            <EditButton userData={userData}/>
             <UserData userData={userData}/>
             <ModifyButton/>
         </div>
