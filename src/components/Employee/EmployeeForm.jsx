@@ -149,9 +149,9 @@ const EmployeeForm = (props, callback, deps) => {
                 <FormLabel>Privilege</FormLabel>
                 <Form.Select defaultValue={value.privilege} onChange={(event => setValue({...value, privilege: event.target.value}))}>
                     <option unselectable={true}>Choose a privilege...</option>
-                    <option>USER</option>
-                    <option>SUPER_USER</option>
-                    <option>ADMIN</option>
+                    <option value={"USER"}>User</option>
+                    <option value={"SUPER_USER"}>Super user</option>
+                    <option value={"ADMIN"}>Admin</option>
                 </Form.Select>
             </FormGroup>
             <Button variant="primary" type="submit">
