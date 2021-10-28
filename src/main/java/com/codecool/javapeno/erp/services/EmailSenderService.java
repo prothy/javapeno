@@ -1,6 +1,5 @@
 package com.codecool.javapeno.erp.services;
 
-import com.codecool.javapeno.erp.dto.MailResponse;
 import com.codecool.javapeno.erp.entities.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -29,7 +28,6 @@ public class EmailSenderService {
     private Configuration config;
 
     public void sendEmail(User user, Map<String, Object> model) {
-        MailResponse response = new MailResponse();
         MimeMessage message = mailSender.createMimeMessage();
         try {
             String subject = "Welcome to Javapeño";
@@ -45,12 +43,9 @@ public class EmailSenderService {
             helper.setText(html, true);
 
             mailSender.send(message);
-            response.setMessage("mail send to : " + user.getEmail());
-            response.setStatus(Boolean.TRUE);
 
         } catch (MessagingException | IOException | TemplateException e) {
-            response.setMessage("Mail Sending failure : " + e.getMessage());
-            response.setStatus(Boolean.FALSE);
+            System.out.println("Mail Sending failure : " + e.getMessage());
         }
     }
 
