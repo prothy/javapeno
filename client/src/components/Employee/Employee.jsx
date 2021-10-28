@@ -1,18 +1,24 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Employee.css"
 import * as PropTypes from "prop-types";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {numberFormat} from "../../util.js"
+import {fetchDataGetIncludeCors} from "../Util/fetchData";
+import {Button} from "react-bootstrap";
 
 function EmployeeHeader() {
     return <h4 id="employeeHeader">Employee data</h4>;
 }
 
-function EditButton() {
+function EditButton(props) {
     return <div id="editEmployeeButton">
-        <button>Edit</button>
+        <Button variant="primary">
+            <Link to={{pathname:"/edit-employee", state:{userData: props.userData}}}>
+                Edit
+            </Link>
+        </Button>
     </div>;
 }
 
@@ -51,35 +57,28 @@ function Address({address}) {
 
 function ModifyButton() {
     return <div id="modifyEmployeeButton">
-        <button>Modify data</button>
+        <Button variant="primary">Modify data</Button>
     </div>;
 }
 
 let Employee = () => {
-    let [userData, setData] = useState([]);
+    let [userData, setData] = useState({});
+    let getUserURL = "http://localhost:8080/api/user/";
     const {userId} = useParams();
 
-    let getUserURL = "http://localhost:8080/api/user/";
-
-    let fetchEmployeeById = useCallback(async () => {
-        let userData = await fetch(getUserURL + userId, {
-            method: 'GET',
-            credentials: 'include',
-            mode: 'cors'
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err));
-        setData(userData)
-    }, [getUserURL, userId])
-
     useEffect(() => {
-        fetchEmployeeById().catch(err => console.error(err));
-    }, [fetchEmployeeById]);
+        let userDataFromServer = fetchDataGetIncludeCors(getUserURL + userId);
+        userDataFromServer
+            .then((data) => {
+                setData(data);
+            })
+            .catch(err => console.error(err));
+    }, [getUserURL, userId]);
 
     return (
         <div className="employee">
             <EmployeeHeader/>
-            <EditButton/>
+            <EditButton userData={userData}/>
             <UserData userData={userData}/>
             <ModifyButton/>
         </div>
