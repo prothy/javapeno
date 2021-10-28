@@ -3,7 +3,7 @@ import {Route, Switch} from 'react-router';
 import './App.css';
 
 import EmployeeList from './components/Employee/EmployeeList';
-import Javapeno from './containers/Javapeno';
+import Javapeno from './components/Home/Home';
 import Layout from './components/Layout/Layout';
 import Employee from "./components/Employee/Employee";
 import Transactions from "./components/Transactions/Transactions";
