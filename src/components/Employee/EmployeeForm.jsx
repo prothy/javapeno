@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
 import {useHistory, useLocation} from "react-router-dom";
-import {fetchJsonDataPostIncludeCors} from "../Util/fetchData";
+import {fetchJsonDataPostIncludeCors, fetchJsonDataPutIncludeCors} from "../Util/fetchData";
 import Table from "react-bootstrap/Table";
 import "./EmployeeForm.css"
 
@@ -61,23 +61,17 @@ const EmployeeForm = (props, callback, deps) => {
     const updateUserURL = "http://localhost:8080/api/user/update";
 
     const putEmployeeForm = useCallback(async (formattedValue) => {
-        await fetchJsonDataPostIncludeCors(addUserURL, JSON.stringify(formattedValue))
-            .then(() => {
-                history.push("/employees");
-            });
+        await fetchJsonDataPutIncludeCors(updateUserURL, JSON.stringify(formattedValue))
+            .then(res => console.log(res))
+            .then(() => history.push("/employees"));
     }, [history])
 
     const postEmployeeForm = useCallback(async (formattedValue) => {
         await fetchJsonDataPostIncludeCors(addUserURL, JSON.stringify(formattedValue))
-            .then(() => {
-                history.push("/employees");
-            });
-    const fetchEmployeeForm = useCallback(async (formattedValue) => {
-        await fetchJsonDataPostIncludeCors(
-            addUserURL, JSON.stringify(formattedValue))
             .then(res => console.log(res))
             .then(() => history.push("/employees"));
     }, [history])
+
 
     return (
         <div className={'employeeForm'}>
