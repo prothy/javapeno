@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from "react";
 import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
 import {useHistory, useLocation} from "react-router-dom";
+import {fetchJsonDataPostIncludeCors} from "../Util/fetchData";
 
 const EmployeeForm = (props, callback, deps) => {
     const location = useLocation();
@@ -44,23 +45,16 @@ const EmployeeForm = (props, callback, deps) => {
             privilege: value.privilege
         };
         console.log(formattedValue);
-        fetchEmployeeForm(formattedValue);
+        fetchEmployeeForm(formattedValue).catch(err => console.error(err));
     }
 
     const addUserURL = "http://localhost:8080/api/user/add";
 
     const fetchEmployeeForm = useCallback(async (formattedValue) => {
-        let response = await fetch(addUserURL, {
-            method: "POST",
-            credentials: "include",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formattedValue)
-        })
-        history.push("/employees")
-
+        await fetchJsonDataPostIncludeCors(addUserURL, JSON.stringify(formattedValue))
+            .then(() => {
+                history.push("/employees");
+            });
     }, [history])
 
     return (
@@ -150,8 +144,6 @@ const EmployeeForm = (props, callback, deps) => {
             </Button>
         </Form>
     )
-
-
 }
 
 export default EmployeeForm;
