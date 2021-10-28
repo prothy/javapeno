@@ -6,7 +6,7 @@ import {LinkContainer} from 'react-router-bootstrap'
 
 const SideDrawer = () => {
   return(
-      <Nav className="flex-column" variant={"pills"} defaultActiveKey={"home"}>
+      <Nav className="flex-column" variant={"pills"} >
           <NavItem>
               <LinkContainer to={"/home"}>
                   <NavLink eventKey={"home"} >
