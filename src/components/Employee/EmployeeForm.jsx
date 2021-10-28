@@ -49,6 +49,7 @@ const EmployeeForm = (props, callback, deps) => {
     }
 
     const addUserURL = "http://localhost:8080/api/user/add";
+    const updateUserURL = "http://localhost:8080/api/user/update";
 
     const fetchEmployeeForm = useCallback(async (formattedValue) => {
         await fetchJsonDataPostIncludeCors(addUserURL, JSON.stringify(formattedValue))
