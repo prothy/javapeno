@@ -90,15 +90,17 @@ const EmployeeForm = (props, callback, deps) => {
                         <FormLabel>Country</FormLabel>
                         <Form.Select defaultValue={value.country} onChange={(event => setValue({...value, country: event.target.value}))}>
                             <option unselectable={true}>Choose a country...</option>
-                            <option>Hungary</option>
-                            <option>Austria</option>
-                            <option>Slovakia</option>
-                            <option>Ukraine</option>
-                            <option>Romania</option>
-                            <option>Serbia</option>
-                            <option>Croatia</option>
-                            <option>Slovenia</option>
-                            <option>Wakanda</option>
+                            <option value={"hungary"}>Hungary</option>
+                            <option value={"germany"}>Germany</option>
+                            <option value={"french"}>French</option>
+                            <option value={"austria"}>Austria</option>
+                            <option value={"slovakia"}>Slovakia</option>
+                            <option value={"ukraine"}>Ukraine</option>
+                            <option value={"romania"}>Romania</option>
+                            <option value={"serbia"}>Serbia</option>
+                            <option value={"croatia"}>Croatia</option>
+                            <option value={"slovenia"}>Slovenia</option>
+                            <option value={"poland"}>Poland</option>
                         </Form.Select>
                     </FormGroup>
                 </Col>
