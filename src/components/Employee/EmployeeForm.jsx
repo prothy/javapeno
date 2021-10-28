@@ -150,6 +150,6 @@ const EmployeeForm = (callback, deps) => {
             </Button>
         </Form>
     )
-}
+} 
 
 export default EmployeeForm;
