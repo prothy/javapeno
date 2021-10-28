@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Employee.css"
 import * as PropTypes from "prop-types";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {numberFormat} from "../../util.js"
 import {fetchDataGetIncludeCors} from "../Util/fetchData";
 import {Button} from "react-bootstrap";
@@ -12,9 +12,13 @@ function EmployeeHeader() {
     return <h4 id="employeeHeader">Employee data</h4>;
 }
 
-function EditButton() {
+function EditButton(props) {
     return <div id="editEmployeeButton">
-        <Button variant="primary">Edit</Button>
+        <Button variant="primary">
+            <Link to={{pathname:"/edit-employee", state:{userData: props.userData}}}>
+                Edit
+            </Link>
+        </Button>
     </div>;
 }
 
@@ -58,7 +62,7 @@ function ModifyButton() {
 }
 
 let Employee = () => {
-    let [userData, setData] = useState([]);
+    let [userData, setData] = useState({});
     let getUserURL = "http://localhost:8080/api/user/";
     const {userId} = useParams();
 
@@ -74,7 +78,7 @@ let Employee = () => {
     return (
         <div className="employee">
             <EmployeeHeader/>
-            <EditButton/>
+            <EditButton userData={userData}/>
             <UserData userData={userData}/>
             <ModifyButton/>
         </div>
