@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import {Button, Col, Form, FormControl, FormGroup, FormLabel, Row} from "react-bootstrap";
+import {Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import {fetchJsonDataPostIncludeCors} from "../Util/fetchData";
 import Table from "react-bootstrap/Table";
@@ -9,7 +9,7 @@ function EmployeeFormHeader() {
     return <h4 id="employeeFormHeader">Add new employee</h4>;
 }
 
-const EmployeeForm = (callback, deps) => {
+const EmployeeForm = () => {
     const [value, setValue] = useState({
         name: "",
         phoneNumber: "",
@@ -44,7 +44,6 @@ const EmployeeForm = (callback, deps) => {
             status: value.status,
             privilege: value.privilege
         };
-        console.log(formattedValue);
         fetchEmployeeForm(formattedValue).catch(err => console.error(err));
     }
 
@@ -52,9 +51,8 @@ const EmployeeForm = (callback, deps) => {
 
     const fetchEmployeeForm = useCallback(async (formattedValue) => {
         await fetchJsonDataPostIncludeCors(
-            addUserURL, JSON.stringify(formattedValue))
-            .then(res => console.log(res))
-            .then(() => history.push("/employees"));
+            addUserURL, JSON.stringify(formattedValue));
+        history.push("/employees");
     }, [history])
 
     return (
