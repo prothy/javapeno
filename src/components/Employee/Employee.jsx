@@ -5,6 +5,7 @@ import "./Employee.css"
 import * as PropTypes from "prop-types";
 import {useParams} from "react-router-dom";
 import {numberFormat} from "../../util.js"
+import {Button} from "react-bootstrap";
 
 function EmployeeHeader() {
     return <h4 id="employeeHeader">Employee data</h4>;
@@ -12,7 +13,7 @@ function EmployeeHeader() {
 
 function EditButton() {
     return <div id="editEmployeeButton">
-        <button>Edit</button>
+        <Button variant="primary">Edit</Button>
     </div>;
 }
 
@@ -51,7 +52,7 @@ function Address({address}) {
 
 function ModifyButton() {
     return <div id="modifyEmployeeButton">
-        <button>Modify data</button>
+        <Button variant="primary">Modify data</Button>
     </div>;
 }
 
