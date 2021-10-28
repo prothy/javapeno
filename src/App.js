@@ -20,6 +20,9 @@ function App() {
           <Route path="/create-employee" >
             <EmployeeForm />
           </Route>
+          <Route path="/edit-employee" >
+            <EmployeeForm />
+          </Route>
           <Route path="/employees">
             <EmployeeList />
           </Route>
