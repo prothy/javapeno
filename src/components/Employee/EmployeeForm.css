@@ -1,0 +1,13 @@
+.employee-form {
+    margin: 2rem 5rem;
+}
+
+.employee-form .form-input-group {
+    margin-bottom: 3rem;
+}
+
+.employee-form .form-input {
+    display: inline-block;
+    margin-right: 1rem;
+    max-width: 20rem;
+}
