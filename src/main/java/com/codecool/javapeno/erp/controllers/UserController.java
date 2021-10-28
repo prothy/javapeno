@@ -126,6 +126,19 @@ public class UserController {
         return userService.addNewUser(user);
     }
 
+    @PutMapping("/update")
+    @ApiOperation(
+            value = "Update user data by id",
+            notes = "Updating user data in the user book",
+            response = String.class)
+
+    public String updateUser(
+            @ApiParam(value = "The user data for to update")
+            @RequestBody User updatedUserData) {
+
+        return userService.updateUser(updatedUserData);
+    }
+
     /**
      * Approve modification of given user
      *
