@@ -2,22 +2,34 @@ package com.codecool.javapeno.erp.services;
 
 import com.codecool.javapeno.erp.entities.Holiday;
 import com.codecool.javapeno.erp.entities.User;
-import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.entities.UserStatus;
+import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final HolidayRepository holidayRepository;
+    private final EmailSenderService emailSenderService;
+
+    @Autowired
+    public UserService(UserRepository userRepository, HolidayRepository holidayRepository,
+                       EmailSenderService emailSenderService) {
+        this.userRepository = userRepository;
+        this.holidayRepository = holidayRepository;
+        this.emailSenderService = emailSenderService;
+    }
 
     public User getUserById(UUID userId) {
         Optional<User> maybeUser = userRepository.findById(userId);
@@ -43,6 +55,7 @@ public class UserService {
 
     public String addNewUser(User user) {
         userRepository.save(user);
+        emailSenderService.sendEmail(user);
         return "New user saved";
     }
 

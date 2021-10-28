@@ -1,6 +1,7 @@
 package com.codecool.javapeno.erp.controllers;
 
 import com.codecool.javapeno.erp.entities.Holiday;
+import com.codecool.javapeno.erp.services.EmailSenderService;
 import com.codecool.javapeno.erp.models.ErrorModel;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
