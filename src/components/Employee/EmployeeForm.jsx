@@ -12,7 +12,6 @@ function EmployeeFormHeader() {
 const EmployeeForm = (props, callback, deps) => {
     const location = useLocation();
     const userData = location.state?.userData;
-    console.log(userData)
     const [value, setValue] = useState({
         id: userData?.id,
         name: userData?.name,
@@ -50,7 +49,6 @@ const EmployeeForm = (props, callback, deps) => {
             status: value.status,
             privilege: value.privilege
         };
-        console.log(formattedValue);
 
         if (props.isEdit) {
             putEmployeeForm(formattedValue).catch(err => console.error(err));
