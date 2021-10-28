@@ -77,9 +77,8 @@ public class UserService {
         }
         User user = maybeUser.get();
 
-        if (!Objects.equals(user.getName(), updatedUser.getName())) {
-            user.setName(updatedUser.getName());
-        }
+        userRepository.save(updatedUser);
+
         return "User data change approved";
     }
 
