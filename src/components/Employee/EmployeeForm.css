@@ -15,3 +15,8 @@
 .form-group-header {
     background: var(--baby-blue)!important; /*lord forgive me*/
 }
+
+.required:after {
+    content:"*";
+    color: red;
+}

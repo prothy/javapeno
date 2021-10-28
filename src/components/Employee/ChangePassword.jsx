@@ -66,9 +66,11 @@ let ChangePassword = () => {
                     setErrorValue({...error, password: "Passwords don't match", confirm_password: ""});
                 } else if (!value["password"].match(regex)) {
                     isValid = false;
-                    setErrorValue({...error, password: "Please provide a password from english characters, \n" +
+                    setErrorValue({
+                        ...error, password: "Please provide a password from english characters, \n" +
                             "with at least one uppercase, lowercase and digit characters, \n" +
-                            " and with the minimum length of 8.", confirm_password: ""});
+                            " and with the minimum length of 8.", confirm_password: ""
+                    });
                 }
             }
             return isValid;
@@ -88,7 +90,7 @@ let ChangePassword = () => {
                     setData(data);
                 })
                 .catch(err => console.error(err));
-        }, [fetchDataGetIncludeCors, userId]);
+        }, [userId]);
 
         return (
             <div className="changePassword">
@@ -98,42 +100,34 @@ let ChangePassword = () => {
                         <tbody>
                         <tr>
                             <td className={'descriptionColumn'}><FormLabel>Username:</FormLabel></td>
-                            <td><FormControl plaintext type={"text"} value={userData.email} readOnly={true}/>
-                                <div className="text-danger">{error.name}</div>
-                            </td>
+                            <td><FormControl plaintext type={"text"} value={userData.email} readOnly={true}/></td>
                         </tr>
                         <tr>
                             <td className={'descriptionColumn'}><FormLabel>Password:</FormLabel></td>
-                            <div className={'passwordInputLine'}>
-                                <td>
-                                    <FormControl type={isRevealPwd ? "text" : "password"} value={value.password}
-                                                 onChange={(event => setValue({...value, password: event.target.value}))}/>
-                                </td>
+                            <td className={"passwordInputLine"}>
+                                <FormControl type={isRevealPwd ? "text" : "password"} value={value.password}
+                                             onChange={(event => setValue({...value, password: event.target.value}))}/>
                                 <img className={"showPasswordImage"}
                                      alt={'showPasswordImage'}
                                      title={isRevealPwd ? "Hide password" : "Show password"}
                                      src={isRevealPwd ? hidePwdImg : showPwdImg}
                                      onClick={() => setIsRevealPwd(prevState => !prevState)}/>
-
-                            </div>
+                            </td>
                         </tr>
                         <tr>
                             <td className={'descriptionColumn'}><FormLabel>Confirm password:</FormLabel></td>
-                            <div className={'passwordInputLine'}>
-                                <td>
-                                    <FormControl type={isRevealPwd2 ? "text" : "password"} value={value.confirm_password}
-                                                 onChange={(event => setValue({
-                                                     ...value,
-                                                     confirm_password: event.target.value
-                                                 }))}/>
-                                </td>
+                            <td className={"passwordInputLine"}>
+                                <FormControl type={isRevealPwd2 ? "text" : "password"} value={value.confirm_password}
+                                             onChange={(event => setValue({
+                                                 ...value,
+                                                 confirm_password: event.target.value
+                                             }))}/>
                                 <img className={"showPasswordImage"}
                                      alt={'showPasswordImage'}
                                      title={isRevealPwd2 ? "Hide password" : "Show password"}
                                      src={isRevealPwd2 ? hidePwdImg : showPwdImg}
                                      onClick={() => setIsRevealPwd2(prevState => !prevState)}/>
-
-                            </div>
+                            </td>
                         </tr>
                         <tr>
                             <td id={'changePasswordRow'} colSpan={2}>
