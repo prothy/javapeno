@@ -18,6 +18,10 @@
   background: var(--disabled-mango);
 }
 
+main {
+  padding: 2rem;
+}
+
 footer {
   margin-top:auto;
   color: grey;
