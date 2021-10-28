@@ -139,10 +139,10 @@ const EmployeeForm = (props, callback, deps) => {
                 <FormLabel>Status</FormLabel>
                 <Form.Select defaultValue={value.status} onChange={(event => setValue({...value, status: event.target.value}))}>
                     <option unselectable={true}>Choose a status...</option>
-                    <option>ACTIVE</option>
-                    <option>DELETED</option>
-                    <option>HOLIDAY</option>
-                    <option>SICK</option>
+                    <option value={"ACTIVE"}>Active</option>
+                    <option value={"DELETED"}>Deleted</option>
+                    <option value={"HOLIDAY"}>Holiday</option>
+                    <option value={"SICK"}>Sick</option>
                 </Form.Select>
             </FormGroup>
             <FormGroup className={"mb-3"} controlId={"privilege"}>
