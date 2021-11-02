@@ -6,7 +6,6 @@ import com.codecool.javapeno.erp.repositories.HolidayRepository;
 import com.codecool.javapeno.erp.entities.UserStatus;
 import com.codecool.javapeno.erp.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -24,6 +23,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final HolidayRepository holidayRepository;
+    private final UserAuthenticationService userAuthenticationService;
 
 
     public User getUserById(UUID userId) {
@@ -55,7 +55,8 @@ public class UserService {
 
     public void addNewUser(User user) {
         userRepository.save(user);
-    }
+        userAuthenticationService.createAuthenticationByUser(user);
+}
 
     public void deactivateUser(UUID id) {
         User user = userRepository.findById(id)
