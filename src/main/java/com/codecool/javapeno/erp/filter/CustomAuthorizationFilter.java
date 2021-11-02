@@ -16,11 +16,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -29,7 +27,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/login")) {
+        if (request.getServletPath().equals("/api/login") ||
+                request.getServletPath().equals("/api/user-authentication-service/token/refresh")) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
@@ -40,11 +39,16 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
-                    String[] privilege = decodedJWT.getClaim("privilege").asArray(String.class);
+                    String[] privileges = decodedJWT.getClaim("privilege").asArray(String.class);
+
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(new SimpleGrantedAuthority(privilege[0]));
+                    stream(privileges).forEach(privilege -> {
+                        authorities.add(new SimpleGrantedAuthority(privilege));
+                    });
+
                     UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken(username, null);
+                            new UsernamePasswordAuthenticationToken(username, null, authorities);
+
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 } catch (Exception exception) {
