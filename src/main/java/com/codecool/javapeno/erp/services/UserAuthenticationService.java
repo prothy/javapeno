@@ -23,7 +23,7 @@ public class UserAuthenticationService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserAuthentication userAuthentication = userAuthenticationRepository.findByUsername(username);
+        UserAuthentication userAuthentication = getAuthenticationByUsername(username);
         User user;
 
         if (userAuthentication == null) {
@@ -48,6 +48,10 @@ public class UserAuthenticationService implements UserDetailsService {
         String randomPassword = UUID.randomUUID().toString();
         UserAuthentication userAuthentication = new UserAuthentication(user, passwordCoder(randomPassword));
         registerAuthentication(userAuthentication);
+    }
+
+    public UserAuthentication getAuthenticationByUsername(String userName) {
+        return userAuthenticationRepository.findByUsername(userName);
     }
 
     private String passwordCoder(String hashedPassword) {
