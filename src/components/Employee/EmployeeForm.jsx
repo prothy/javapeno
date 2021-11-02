@@ -90,7 +90,7 @@ const EmployeeForm = (props) => {
                         <td>
                             <FormGroup className={"mb-3"} controlId={"name"}>
                                 <FormLabel className={"required"}>Full name</FormLabel>
-                                <FormControl type={"text"} value={value.name} placeholder={"John Doe"}
+                                <FormControl type={"text"} value={value.name} placeholder={"John Doe"} required
                                              readOnly={props.isEdit}
                                              onChange={(event => setValue({...value, name: event.target.value}))}/>
                             </FormGroup>

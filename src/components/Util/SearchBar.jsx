@@ -1,11 +1,11 @@
 import React from 'react';
-import { InputGroup, FormControl } from 'react-bootstrap'
+import {InputGroup, FormControl} from 'react-bootstrap'
 
 const SearchBar = ({searchByName}) => {
 
     return (
-        <InputGroup className="mb-3 filter" 
-            >
+        <InputGroup className="mb-3 filter" style={{margin: "auto"}}
+        >
             <FormControl
                 placeholder="Filter by name"
                 aria-label="Recipient's username"
@@ -15,7 +15,7 @@ const SearchBar = ({searchByName}) => {
             {/* <Button variant="outline-secondary" id="button-addon2">
                 Search
             </Button> */}
-     </InputGroup>
+        </InputGroup>
     );
 }
 
