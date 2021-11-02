@@ -34,7 +34,7 @@ const EmployeeList = () => {
         setResponsObj(employeeListObj)
     }, [page])
 
-    const filterResponseObjByVal = (searchValue) => {
+    const filterEmployeeList = (searchValue) => {
         setFilteredEmployeeList(employeeList.filter(
             el => el.name.toLowerCase().includes(searchValue.toLowerCase())
         ))
@@ -57,7 +57,7 @@ const EmployeeList = () => {
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
             <div className="employees">
-                <SearchBar searchByName={filterResponseObjByVal} />
+                <SearchBar searchByName={filterEmployeeList} />
                 <Table className="employee-list table-hover table-fixed" striped >
                     <thead>
                     <tr>
@@ -67,8 +67,8 @@ const EmployeeList = () => {
                     </thead>
                     <tbody>
                     {
-                        filteredEmployeeList ? 
-                        filteredEmployeeList.map((el, index) => 
+                        filteredEmployeeList ?
+                        filteredEmployeeList.map((el, index) =>
                             <EmployeeListItem data={el} index={index + page * 20}/>
                         ) : (
                             <tr>
