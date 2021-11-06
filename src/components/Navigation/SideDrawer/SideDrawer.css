@@ -1,0 +1,39 @@
+@import "../../../_variables.css";
+
+.accordion-body {
+    padding: 0;
+    padding-bottom: 1rem;
+}
+
+.nav-link {
+    color: var(--green);
+}
+
+.nav-link:hover {
+    color: var(--green);
+    opacity: 0.8;
+}
+
+.nav-pills .nav-link {
+    display: flex;
+    align-items: center;
+    border-radius: 0;
+}
+
+.nav-pills .nav-link.active {
+    background: var(--mango);
+    color: var(--dark-brown);
+}
+
+.nav-pills .nav-link svg {
+    margin-right: 0.8em;
+}
+
+.accordion-button:not(.collapsed)::after  {
+    filter: grayscale(1);
+}
+
+.accordion-button:not(.collapsed) {
+    color: var(--bs-gray-dark);
+    background: var(--light-mango);
+}

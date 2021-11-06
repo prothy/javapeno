@@ -1,0 +1,53 @@
+@import "../../../_variables.css";
+
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    padding-bottom: 1rem;
+
+    height: 8rem;
+    background: var(--light-green);
+
+    border-bottom: 5px solid var(--medium-green);
+}
+
+nav > .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .container .nav-logo {
+    display: flex;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: baseline;
+    color: var(--green);
+}
+
+.nav-logo svg {
+    margin-left: 1rem;
+
+    --logo-size: 40px;
+    width: var(--logo-size);
+    height: var(--logo-size);
+}
+
+.nav-logo svg path {
+    fill: var(--green);
+}
+
+.nav-logo h1:first-of-type {
+    color: var(--medium-green);
+}
+
+nav button svg {
+    width: 40px;
+    height: auto;
+
+    color: var(--green);
+}

@@ -1,0 +1,23 @@
+.employee{
+    width: 35%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#employeeHeader{
+    margin: 20px auto 30px auto;
+    text-align: center;
+    text-decoration: underline;
+}
+
+#editEmployeeButton{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+#modifyEmployeeButton{
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}

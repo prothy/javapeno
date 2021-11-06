@@ -1,0 +1,28 @@
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#root > .container-fluid {
+  width: 80%;
+}
+
+.btn-primary, .btn-primary:disabled {
+  background: var(--mango);
+  color: var(--dark-brown);
+  border: none;
+}
+
+.btn-primary:disabled {
+  background: var(--disabled-mango);
+}
+
+main {
+  padding: 2rem;
+}
+
+footer {
+  margin-top:auto;
+  color: grey;
+}
