@@ -30,3 +30,7 @@ In the third sprint, we intended to include the following:
     - e.g. return values were different from each other when they shouldn't have been
 - **Rework UI**
   - Give the application a nice design rather than the basic Bootstrap template
+
+Here is a screenshot of the current version of the site:
+
+<img src="https://github.com/prothy/javapeno/blob/master/docs/app-screenshot.png" height="auto" width=700/>
