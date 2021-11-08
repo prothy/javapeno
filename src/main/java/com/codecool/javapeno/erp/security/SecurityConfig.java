@@ -36,12 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/api/login/**", "/api/user-authentication-service/user-authentication-data/**").permitAll();
+        http.authorizeRequests().antMatchers(GET, "/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER");
+        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers(GET, "/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
         http.authorizeRequests().antMatchers(POST, "/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
         http.authorizeRequests().antMatchers(PUT, "/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
         http.authorizeRequests().antMatchers(DELETE, "/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
-        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("USER");
-        http.authorizeRequests().antMatchers(GET, "/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
