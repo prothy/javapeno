@@ -10,7 +10,6 @@ import com.codecool.javapeno.erp.services.UserAuthenticationService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,41 +26,33 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/api/user-authentication-service")
 @RequiredArgsConstructor
-@Slf4j
 public class UserAuthenticationController {
     private final UserAuthenticationService userAuthenticationService;
 
-    @PostMapping(path = "/register")
+    @PostMapping("/register")
     public void registerAuthentication(@RequestBody UserAuthentication userAuthentication) {
         userAuthenticationService.registerAuthentication(userAuthentication);
     }
 
-    @GetMapping("/token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    @GetMapping("/user-authentication-data")
+    public void userAuthenticationData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Javapeno ")) {
             try {
-                String refresh_token = authorizationHeader.substring("Javapeno ".length());
+                String token = authorizationHeader.substring("Javapeno ".length());
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
-                DecodedJWT decodedJWT = verifier.verify(refresh_token);
+                DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
                 UserAuthentication userAuthentication = userAuthenticationService.getAuthenticationByUsername(username);
                 User user = userAuthentication.getUser();
 
-                String access_token = JWT.create()
-                        .withSubject(userAuthentication.getUsername())
-                        .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                        .withIssuer(request.getRequestURL().toString())
-                        .withClaim("privilege", new ArrayList<>(Collections.singleton(user.getPrivilege().toString())))
-                        .sign(algorithm);
-
-                Map<String, String> tokens = new HashMap<>();
-                tokens.put("access_token", access_token);
-                tokens.put("refresh_token", refresh_token);
+                Map<String, String> userData = new HashMap<>();
+                userData.put("user_id", user.getId().toString());
+                userData.put("privilege", user.getPrivilege().toString());
 
                 response.setContentType(APPLICATION_JSON_VALUE);
-                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+                new ObjectMapper().writeValue(response.getOutputStream(), userData);
 
             } catch (Exception exception) {
                 response.setHeader("error", exception.getMessage());
@@ -74,7 +65,7 @@ public class UserAuthenticationController {
                 new ObjectMapper().writeValue(response.getOutputStream(), error);
             }
         } else {
-            throw new RuntimeException("Refresh token is missing");
+            throw new RuntimeException("Token is missing");
         }
     }
 }
