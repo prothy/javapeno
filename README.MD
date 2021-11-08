@@ -16,15 +16,17 @@ The main features we planned to realize in the first sprint are the following:
 
 Our second sprint consisted mainly the frontend, where we implemented the API endpoints completed in the previous sprint, with some minor, complementing changes to the backend. The relevant code is found in the `client` directory. As we had experience working with React in one of our previous projects, [a webshop](https://github.com/prothy/codecool-shop), we decided it was the ideal framework to go with, and as we were under time pressure, we chose Bootstrap as a UI framework.
 
-Currently, we are working on the third sprint, which will include the following:
+In the third sprint, we intended to include the following:
 
 - **Login and access control system**
   - There are three types of users, "user", "super user", and "admin"
+    - this we failed to implement and are working on in the third sprint using Spring Security 
   - Each type has different levels of access to each feature of the application, e.g. only admins can add new employees
   - On adding new employees, the user will have a link sent to them where they can set a password
 - **Testing**
-  - Create unit and integration tests to the backend to make it more robust. If we have time we will test the frontend with Jest
+  - Create unit and integration tests to the backend to make it more robust
 - **Refactor**
-  - Rework some aspects of the backend, e.g. have only Models returned to the controller, rather than the Entity itself
+  - Clean up the backend, so that the data flow from database to controller is more coherent
+    - e.g. return values were different from each other when they shouldn't have been
 - **Rework UI**
   - Give the application a nice design rather than the basic Bootstrap template
