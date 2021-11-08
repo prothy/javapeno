@@ -6,9 +6,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.codecool.javapeno.erp.entities.User;
 import com.codecool.javapeno.erp.entities.UserAuthentication;
+import com.codecool.javapeno.erp.models.PasswordChangeModel;
 import com.codecool.javapeno.erp.services.UserAuthenticationService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,10 @@ import java.util.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -67,5 +74,15 @@ public class UserAuthenticationController {
         } else {
             throw new RuntimeException("Token is missing");
         }
+    }
+
+    @PostMapping("/first-password-change")
+    @ApiOperation(
+            value = "Change users password for the first time",
+            notes = "Change users password for the first time")
+    public void userFirstPasswordChange(
+            @ApiParam(value = "Users email and new password", required = true)
+            @RequestBody PasswordChangeModel passwordChangeModel) {
+        userAuthenticationService.changeUsersPassword(passwordChangeModel);
     }
 }

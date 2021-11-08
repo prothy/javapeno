@@ -24,8 +24,6 @@ public class ErpApplication {
 		SpringApplication.run(ErpApplication.class, args);
 	}
 
-	//http://localhost:8080/swagger-ui.html
-
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -45,7 +43,7 @@ public class ErpApplication {
 	}
 
 	@Bean
-	public Docket swaggerConfiguration() {
+	public Docket swaggerConfiguration() {//http://localhost:8080/swagger-ui.html
 		//Return a prepared Docket instance
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
@@ -56,14 +54,13 @@ public class ErpApplication {
 
 	private ApiInfo apiDetails() {
 		return new ApiInfo(
-				"Japapeño ERP API",
+				"Javapeño ERP API",
 				"All API what use the Javapeño ERP software",
 				"1.0",
 				"Free to use",
-				new springfox.documentation.service.Contact("Japapeño Team", "", "farago.istvan91@gmail.com"),
+				new springfox.documentation.service.Contact("Javapeño Team", "", "farago.istvan91@gmail.com"),
 				"API License",
 				"",
 				Collections.emptyList());
 	}
-
 }

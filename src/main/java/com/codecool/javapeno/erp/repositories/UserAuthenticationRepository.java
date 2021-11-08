@@ -7,5 +7,7 @@ import java.util.UUID;
 
 public interface UserAuthenticationRepository extends JpaRepository<UserAuthentication, UUID> {
 
+    UserAuthentication findByUserId(UUID userId);
+
     UserAuthentication findByUsername(String username);
 }

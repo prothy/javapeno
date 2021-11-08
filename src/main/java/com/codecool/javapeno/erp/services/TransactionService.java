@@ -3,7 +3,7 @@ package com.codecool.javapeno.erp.services;
 import com.codecool.javapeno.erp.entities.Transaction;
 import com.codecool.javapeno.erp.models.UserTransactionModel;
 import com.codecool.javapeno.erp.repositories.TransactionRepository;
-import lombok.RequiredArgsConstructor;
+import com.codecool.javapeno.erp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -16,11 +16,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class TransactionService {
+
+    private final UserRepository userRepository;
     private final TransactionRepository transactionRepository;
 
+    @Autowired
+    public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository) {
+        this.transactionRepository = transactionRepository;
+        this.userRepository = userRepository;
+    }
+
     public Page<UserTransactionModel> getUserTransactionsById(UUID id, Pageable pageable) {
+        isUserExist(id);
         List<UserTransactionModel> userTransactions = new ArrayList<>();
         for (Transaction transaction : getAllTransactionsByUser(id, pageable))
             userTransactions.add(new UserTransactionModel(transaction));
@@ -29,6 +37,7 @@ public class TransactionService {
     }
 
     public UserTransactionModel getUsersTopTransactionsById(UUID id) {
+        isUserExist(id);
         return new UserTransactionModel(transactionRepository.findTopByUserIdOrderByTimestampDesc(id));
     }
 
@@ -43,12 +52,17 @@ public class TransactionService {
     }
 
     private List<Transaction> getAllTransactionsByUser(UUID id, Pageable pageable) {
-        if (id == null) return null;
         return transactionRepository.findAllByUserId(id, pageable);
     }
 
-    public Page<UserTransactionModel> getAllTransactionsByUserBetweenDates(UUID id, String dateFrom, String dateTo) {
+    private void isUserExist(UUID id) {
+        if (id == null || userRepository.findById(id).isEmpty()) {
+            throw new NoSuchElementException("There is no such a user!");
+        }
+    }
 
+    public Page<UserTransactionModel> getAllTransactionsByUserBetweenDates(UUID id, String dateFrom, String dateTo) {
+        isUserExist(id);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Timestamp timestampDateFrom = null;
         Timestamp timestampDateTo = null;
@@ -58,7 +72,6 @@ public class TransactionService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         List<Transaction> userTransactions = transactionRepository.findAllByTimestampBetweenAndUserId(timestampDateFrom, timestampDateTo, id);
         List<UserTransactionModel> userTransactionsModels = new ArrayList<>();
         for (Transaction userTransaction : userTransactions)
