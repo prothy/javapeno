@@ -32,6 +32,7 @@ public class UserController {
      * @param id user id
      * @return the selected user's data
      */
+    // SUPER_USER for all, USER only for self
     @GetMapping({"/{id}"})
     @ApiOperation(
             value = "Find user by id",
@@ -58,6 +59,7 @@ public class UserController {
      *                        </ul>
      * @return Updated user
      */
+    //SUPER_USER
     @PutMapping("/{id}")
     @ApiOperation(
             value = "Update user data by id",
@@ -78,6 +80,7 @@ public class UserController {
      *
      * @param id user id
      */
+    //SUPER_USER
     @DeleteMapping("/{id}")
     @ApiOperation(
             value = "Deactivate user by id",
@@ -101,6 +104,7 @@ public class UserController {
      *                 <li>privilege ("USER", "SUPER_USER", "ADMIN")</li>
      *             </ul>
      */
+    //SUPER_USER
     @PostMapping("/add")
     @ApiOperation(
             value = "Create new user",
@@ -118,6 +122,7 @@ public class UserController {
      *
      * @deprecated
      */
+    //SUPER_USER if implemented, the updateUserById() method add USER permission
     @PostMapping("/approve")
     @ApiOperation(
             value = "Approve user data to update",
@@ -138,6 +143,7 @@ public class UserController {
      * @param dateTo   date range to (optional)
      * @return list of holidays that overlap with given range
      */
+
     @GetMapping("/{id}/holidays")
     @ApiOperation(
             value = "Get user holidays by id",
@@ -156,7 +162,7 @@ public class UserController {
 
         return userService.getHolidaysByIdInRange(id, dateFrom, dateTo);
     }
-
+    // SUPER_USER for all, USER only for self
     @PostMapping("/{id}/holidays/add")
     @ApiOperation(
             value = "Add holiday",
@@ -174,6 +180,7 @@ public class UserController {
     /**
      * @return 10 users by page, accepts 'page' as URL parameter as per Spring Pageable
      */
+    //USER & SUPER_USER
     @GetMapping("/all")
     @ApiOperation(
             value = "Find all user (pageable)",

@@ -29,10 +29,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserAuthenticationController {
     private final UserAuthenticationService userAuthenticationService;
 
-    @PostMapping("/register")
-    public void registerAuthentication(@RequestBody UserAuthentication userAuthentication) {
-        userAuthenticationService.registerAuthentication(userAuthentication);
-    }
+//    @PostMapping("/register")
+//    public void registerAuthentication(@RequestBody UserAuthentication userAuthentication) {
+//        userAuthenticationService.registerAuthentication(userAuthentication);
+//    }
 
     @GetMapping("/user-authentication-data")
     public void userAuthenticationData(HttpServletRequest request, HttpServletResponse response) throws IOException {
