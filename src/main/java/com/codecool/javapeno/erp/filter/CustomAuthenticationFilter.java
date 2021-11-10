@@ -59,6 +59,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         // add username to session on successful authentication
         request.getSession().setAttribute("username", user.getUsername());
 
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), token);
     }
