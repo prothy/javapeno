@@ -17,6 +17,7 @@ function LoginModal({ show, handleClose }) {
         try {
             const response = await fetch('http://localhost:8080/api/login', {
                 method: 'post',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
@@ -31,13 +32,15 @@ function LoginModal({ show, handleClose }) {
                 handleClose();
 
                 setUser(usernameValue)
+
+                history.push("/")
+
             } else {
                 throw new Error("Error logging in. Check server log for details.")
             }
         } catch (e) {
             console.error(e)
         }
-        // setUser(usernameValue)
     }
 
     return (
