@@ -12,9 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserAuthenticationService implements UserDetailsService {
@@ -46,6 +44,10 @@ public class UserAuthenticationService implements UserDetailsService {
                 userAuthentication.getUsername(),
                 userAuthentication.getPassword(),
                 authorities);
+    }
+
+    public User getUserByUsername(String name) {
+        return userAuthenticationRepository.findByUsername(name).getUser();
     }
 
     public void registerAuthentication(UserAuthentication userAuthentication) {

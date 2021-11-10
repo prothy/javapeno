@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/user-authentication-service")
+@CrossOrigin
+@RequestMapping("/api/auth-service")
 @RequiredArgsConstructor
 public class UserAuthenticationController {
     private final UserAuthenticationService userAuthenticationService;
@@ -41,7 +43,7 @@ public class UserAuthenticationController {
 //        userAuthenticationService.registerAuthentication(userAuthentication);
 //    }
 
-    @GetMapping("/user-authentication-data")
+    @GetMapping("/user-data")
     public void userAuthenticationData(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         if (authorizationHeader != null && authorizationHeader.startsWith("Javapeno ")) {
@@ -84,5 +86,11 @@ public class UserAuthenticationController {
             @ApiParam(value = "Users email and new password", required = true)
             @RequestBody PasswordChangeModel passwordChangeModel) {
         userAuthenticationService.changeUsersPassword(passwordChangeModel);
+    }
+
+    @GetMapping("/current-user")
+    public User getCurrentUser(HttpServletRequest request) {
+        String username = (String) request.getSession().getAttribute("username");
+        return userAuthenticationService.getUserByUsername(username);
     }
 }
