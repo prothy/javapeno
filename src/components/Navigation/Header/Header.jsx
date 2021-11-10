@@ -27,7 +27,7 @@ const Header = () => {
                             <Logo/>
                         </span>
                         <span>{
-                            user ? user
+                            user.username ? user.username
                             : <LoginButton handleShow={handleShow} />
                             }
                         </span>

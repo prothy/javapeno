@@ -7,10 +7,20 @@ import { UserContext } from '../../../context/LoginContext';
 function LoginModal({ show, handleClose }) {
     const history = useHistory();
 
-    const [, setUser] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext)
 
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+
+    const getUserInfo = async () => {
+        const response = await fetch('http://localhost:8080/api/auth-service/current-user', {
+            credentials: 'include'
+        })
+
+        const userObj = await response.json();
+
+        return userObj;
+    }
 
     const loginUser = async (ev) => {
         ev.preventDefault();
@@ -31,7 +41,13 @@ function LoginModal({ show, handleClose }) {
                 console.info("Logged in successfully.")
                 handleClose();
 
-                setUser(usernameValue)
+                const userObj = getUserInfo()
+
+                setUser({
+                    ...user,
+                    'username': usernameValue,
+                    'userId': userObj.id
+                })
 
                 history.push("/")
 
