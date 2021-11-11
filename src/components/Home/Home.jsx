@@ -12,7 +12,7 @@ const Javapeno = () => {
             history.push("/")
             setShow(true)
         } 
-    })
+    }, [history])
     return (
         <article>
             <h2>Welcome to Javapeño's ERP System!</h2>
