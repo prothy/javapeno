@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/auth-service")
 @RequiredArgsConstructor
 public class UserAuthenticationController {

@@ -58,8 +58,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         // add username to session on successful authentication
         request.getSession().setAttribute("username", user.getUsername());
-
-        response.setContentType(APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getOutputStream(), token);
+        request.getSession().setAttribute("access_token", token);
     }
 }

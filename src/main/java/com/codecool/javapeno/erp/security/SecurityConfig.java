@@ -5,6 +5,7 @@ import com.codecool.javapeno.erp.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -45,13 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests().antMatchers("/api/login/**", "/api/auth-service/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER");
-        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("USER");
+        http.authorizeRequests().antMatchers("/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER");
+        http.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers("/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
 
         http.authorizeRequests().anyRequest().authenticated();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+
+        http.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
 
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
