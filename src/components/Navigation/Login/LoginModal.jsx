@@ -7,7 +7,7 @@ import { AuthenticationError } from '../../Util/errors';
 
 import "./LoginModal.css"
 
-function LoginModal({ show, handleClose }) {
+function LoginModal({ show, handleClose, error }) {
     const history = useHistory();
 
     const [user, setUser] = useContext(UserContext)
@@ -15,7 +15,7 @@ function LoginModal({ show, handleClose }) {
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState(error ? error : '');
 
     const getUserInfo = async () => {
         const response = await fetch('http://localhost:8080/api/auth-service/current-user', {

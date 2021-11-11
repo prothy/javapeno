@@ -6,6 +6,6 @@ export class AuthenticationError extends Error {
 
 export class AuthorizationError extends Error {
     constructor() {
-        super("Error accessing page. Make sure you are logged in.")
+        super("Error accessing page. Make sure you have the right permissions.")
     }
 }
