@@ -1,10 +1,11 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {useHistory, useLocation} from "react-router-dom";
 import {fetchJsonDataPostIncludeCors, fetchJsonDataPutIncludeCors} from "../Util/fetchData";
 import Table from "react-bootstrap/Table";
 import "./EmployeeForm.css"
-import { AuthorizationError } from "../Util/errors";
+import {AuthorizationError} from "../Util/errors";
+import {UserContext} from "../../context/LoginContext";
 
 function EmployeeFormHeader({isEdit}) {
     if (isEdit) {
@@ -17,6 +18,7 @@ function EmployeeFormHeader({isEdit}) {
 const EmployeeForm = (props) => {
     const addUserURL = "http://localhost:8080/api/user/add";
     const updateUserURL = "http://localhost:8080/api/user/update";
+    const [user, setUser] = useContext(UserContext)
     const location = useLocation();
     const userData = location.state?.userData;
     const history = useHistory();
@@ -85,7 +87,10 @@ const EmployeeForm = (props) => {
             if (response.status === 403) throw new AuthorizationError()
         } catch (e) {
             console.log(e);
-            history.push("/?unauthorized");
+            if (user.username === undefined)
+                history.push("/?unauthorized");
+            else
+                history.push("/");
         }
     }
 
@@ -242,6 +247,6 @@ const EmployeeForm = (props) => {
             </Form>
         </div>
     )
-} 
+}
 
 export default EmployeeForm;
