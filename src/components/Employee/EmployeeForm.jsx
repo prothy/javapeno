@@ -1,9 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {useHistory, useLocation} from "react-router-dom";
 import {fetchJsonDataPostIncludeCors, fetchJsonDataPutIncludeCors} from "../Util/fetchData";
 import Table from "react-bootstrap/Table";
 import "./EmployeeForm.css"
+import { AuthorizationError } from "../Util/errors";
 
 function EmployeeFormHeader({isEdit}) {
     if (isEdit) {
@@ -75,6 +76,22 @@ const EmployeeForm = (props) => {
             .then(res => console.log(res));
         history.push("/employees");
     }, [history])
+
+    const validateAuthorization = async () => {
+        try {
+            const response = await fetch(addUserURL, {
+                credentials: 'include'
+            })
+            if (response.status === 403) throw new AuthorizationError()
+        } catch (e) {
+            console.log(e);
+            history.push("/?unauthorized");
+        }
+    }
+
+    useEffect(() => {
+        validateAuthorization()
+    })
 
 
     return (

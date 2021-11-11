@@ -41,13 +41,13 @@ function LoginModal({ show, handleClose }) {
                 console.info("Logged in successfully.")
                 handleClose();
 
-                const userObj = getUserInfo()
+                const userObj = await getUserInfo()
 
-                setUser({
-                    ...user,
+                setUser(prevState => ({
+                    ...prevState,
                     'username': usernameValue,
                     'userId': userObj.id
-                })
+                }))
 
                 history.push("/")
 
