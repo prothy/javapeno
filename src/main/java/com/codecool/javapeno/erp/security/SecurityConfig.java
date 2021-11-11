@@ -1,30 +1,30 @@
 package com.codecool.javapeno.erp.security;
 
-import com.codecool.javapeno.erp.filter.CustomAuthenticationFilter;
-import com.codecool.javapeno.erp.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
-
-import static org.springframework.http.HttpMethod.*;
-import static org.springframework.security.config.http.SessionCreationPolicy.*;
 
 @Configuration
 @EnableWebSecurity
@@ -40,25 +40,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
-        http.cors();
-        http.csrf().disable();
+        http.cors().and()
+                .csrf().disable().authorizeRequests()
 
-        http.authorizeRequests().antMatchers("/api/login/**", "/api/auth-service/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER");
-        http.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("USER");
-        http.authorizeRequests().antMatchers("/api/**").hasAnyAuthority("SUPER_USER", "ADMIN");
+                .antMatchers("/api/login/**", "/api/auth-service/**").permitAll()
+                .antMatchers("/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER")
+                .antMatchers("/api/user/**").hasAnyAuthority("USER")
+                .antMatchers("/api/**").hasAnyAuthority("SUPER_USER", "ADMIN")
 
-        http.authorizeRequests().anyRequest().authenticated();
+                .anyRequest().authenticated().and()
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                .formLogin().loginProcessingUrl("/api/login")
+                .successHandler(new SuccessHandler())
+                .failureHandler(new FailureHandler()).and()
 
-        http.logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll();
+                .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll().and()
 
-        http.addFilter(customAuthenticationFilter);
-        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
     }
 
     @Bean
@@ -78,5 +77,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    static class SuccessHandler implements AuthenticationSuccessHandler {
+
+        @Override
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+            User user = (User) authentication.getPrincipal();
+            request.getSession().setAttribute("username", user.getUsername());
+
+            response.setStatus(200);
+        }
+    }
+
+    static class FailureHandler implements AuthenticationFailureHandler {
+
+        @Override
+        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
+            response.setStatus(401);
+        }
     }
 }
