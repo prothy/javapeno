@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 
 import LoginModal from '../Navigation/Login/LoginModal';
-import { AuthenticationError, AuthorizationError } from '../Util/errors';
+import { AuthorizationError } from '../Util/errors';
+import "./Home.css";
 
 const Javapeno = () => {
     const [show, setShow] = useState(false)

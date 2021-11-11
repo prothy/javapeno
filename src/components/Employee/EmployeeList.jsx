@@ -79,9 +79,9 @@ const EmployeeList = () => {
                     </thead>
                     <tbody>
                     {
-                        filteredEmployeeList ? 
-                        filteredEmployeeList.map((el, index) => 
-                            <EmployeeListItem data={el} index={index}/>
+                        filteredEmployeeList ?
+                        filteredEmployeeList.map((el, index) =>
+                            <EmployeeListItem data={el} index={index + page * 20}/>
                         ) : (
                             <tr>
                                 <td colSpan="2">No employees</td>
