@@ -1,7 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Container, Navbar, Button} from "react-bootstrap";
-import { useCookies } from "react-cookie";
-import { Link } from 'react-router-dom';
+import {Container } from "react-bootstrap";
 
 import LoginButton from "../Login/LoginButton";
 import LoginModal from "../Login/LoginModal";

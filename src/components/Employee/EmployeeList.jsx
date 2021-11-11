@@ -32,7 +32,7 @@ const EmployeeList = () => {
             
             if (response.status !== 200) throw new AuthorizationError();
 
-            const employeeListObj = response.json()
+            const employeeListObj = await response.json()
 
             setMaxPage(employeeListObj.totalPages - 1)
             setEmployeeList(employeeListObj.content)
