@@ -16,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -42,20 +44,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors().and()
-                .csrf().disable().authorizeRequests()
+                .csrf().disable()
 
-                .antMatchers("/api/login/**", "/api/auth-service/**").permitAll()
-                .antMatchers("/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER")
-                .antMatchers("/api/user/**").hasAnyAuthority("USER")
-                .antMatchers("/api/**").hasAnyAuthority("SUPER_USER", "ADMIN")
+                .authorizeRequests()
+                    .antMatchers("/api/login/**", "/api/logout/**", "/api/auth-service/**").permitAll()
+                    .antMatchers("/api/transaction/**").hasAnyAuthority("SUPER_USER", "ADMIN", "USER")
+                    .antMatchers("/api/user/**").hasAnyAuthority("USER")
+                    .antMatchers("/api/**").hasAnyAuthority("SUPER_USER", "ADMIN")
+                    .anyRequest().authenticated().and()
 
-                .anyRequest().authenticated().and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(new Http403ForbiddenEntryPoint()).and()
 
                 .formLogin().loginProcessingUrl("/api/login")
-                .successHandler(new SuccessHandler())
-                .failureHandler(new FailureHandler()).and()
+                    .successHandler(new SuccessHandler())
+                    .failureHandler((request, response, authentication) -> response.setStatus(401)).and()
 
-                .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID").permitAll().and()
+                .logout().logoutUrl("/api/logout")
+                    .logoutSuccessHandler((request, response, authentication) -> response.setStatus(200))
+                    .invalidateHttpSession(true).deleteCookies("JSESSIONID").and()
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
     }
@@ -87,14 +94,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             request.getSession().setAttribute("username", user.getUsername());
 
             response.setStatus(200);
-        }
-    }
-
-    static class FailureHandler implements AuthenticationFailureHandler {
-
-        @Override
-        public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) {
-            response.setStatus(401);
         }
     }
 }
