@@ -3,6 +3,9 @@ import {Button, Form, Modal} from "react-bootstrap";
 import { useHistory } from 'react-router';
 
 import { UserContext } from '../../../context/LoginContext';
+import { AuthenticationError } from '../../Util/errors';
+
+import "./LoginModal.css"
 
 function LoginModal({ show, handleClose }) {
     const history = useHistory();
@@ -11,6 +14,8 @@ function LoginModal({ show, handleClose }) {
 
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     const getUserInfo = async () => {
         const response = await fetch('http://localhost:8080/api/auth-service/current-user', {
@@ -39,6 +44,7 @@ function LoginModal({ show, handleClose }) {
 
             if (response.status === 200) {
                 console.info("Logged in successfully.")
+                setErrorMessage('')
                 handleClose();
 
                 const userObj = await getUserInfo()
@@ -52,10 +58,11 @@ function LoginModal({ show, handleClose }) {
                 history.push("/")
 
             } else {
-                throw new Error("Error logging in. Check server log for details.")
+                throw new AuthenticationError()
             }
         } catch (e) {
             console.error(e)
+            setErrorMessage(e.message)
         }
     }
 
@@ -72,6 +79,7 @@ function LoginModal({ show, handleClose }) {
                 </Modal.Header>
                     <Form onSubmit={loginUser}>
                         <Modal.Body>
+                            <span className="error-message" hidden={!errorMessage}>{errorMessage}</span>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Username</Form.Label>
                                 <Form.Control type="text" placeholder="Enter username" 
