@@ -30,19 +30,6 @@ public class ErpApplication {
 	}
 
 	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("http://localhost:3000")
-						.allowCredentials(true)
-						.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-			}
-		};
-	}
-
-	@Bean
 	public Docket swaggerConfiguration() {//http://localhost:8080/swagger-ui.html
 		//Return a prepared Docket instance
 		return new Docket(DocumentationType.SWAGGER_2)

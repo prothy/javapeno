@@ -126,7 +126,7 @@ values (uuid_in((md5('547246d8-9a06-fb14-01f2-98722bc783e9'))::cstring), '111111
 
 
 insert into authentication (id, username, password, user_id)
-values (uuid_in((md5('4f07f2cc-c7f2-40bf-b8db-f60f6377b0bf'))::cstring), 'teszt_elek', 'safepassword', uuid_in((md5('8cb3a14a-e68e-f902-badb-3e9877e6b330'))::cstring));
+values (uuid_in((md5('4f07f2cc-c7f2-40bf-b8db-f60f6377b0bf'))::cstring), 'teszt_elek', '$2a$10$z4Fm900R0goOBRlMjI1DYO8LV0jRCHHD2EiPwIKRxvBUlmyF02rBq', uuid_in((md5('8cb3a14a-e68e-f902-badb-3e9877e6b330'))::cstring));
 
 insert into authentication (id, username, password, user_id)
 values (uuid_in((md5('412345cc-c7f2-40bf-b8db-f60f6377b0bf'))::cstring), 'minta_aladar', 'safepassword2', uuid_in((md5('28b483cc-f11f-ad50-0743-996de7cb01c4'))::cstring));
