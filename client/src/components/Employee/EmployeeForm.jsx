@@ -1,9 +1,11 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 import {Button, Form, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {useHistory, useLocation} from "react-router-dom";
 import {fetchJsonDataPostIncludeCors, fetchJsonDataPutIncludeCors} from "../Util/fetchData";
 import Table from "react-bootstrap/Table";
 import "./EmployeeForm.css"
+import {AuthorizationError} from "../Util/errors";
+import {UserContext} from "../../context/LoginContext";
 
 function EmployeeFormHeader({isEdit}) {
     if (isEdit) {
@@ -16,6 +18,7 @@ function EmployeeFormHeader({isEdit}) {
 const EmployeeForm = (props) => {
     const addUserURL = "http://localhost:8080/api/user/add";
     const updateUserURL = "http://localhost:8080/api/user/update";
+    const [user, setUser] = useContext(UserContext)
     const location = useLocation();
     const userData = location.state?.userData;
     const history = useHistory();
@@ -76,6 +79,25 @@ const EmployeeForm = (props) => {
         history.push("/employees");
     }, [history])
 
+    const validateAuthorization = async () => {
+        try {
+            const response = await fetch(addUserURL, {
+                credentials: 'include'
+            })
+            if (response.status === 403) throw new AuthorizationError()
+        } catch (e) {
+            console.log(e);
+            if (user.username === undefined)
+                history.push("/?unauthorized");
+            else
+                history.push("/");
+        }
+    }
+
+    useEffect(() => {
+        validateAuthorization()
+    })
+
 
     return (
         <div className={'employeeForm'}>
@@ -90,7 +112,7 @@ const EmployeeForm = (props) => {
                         <td>
                             <FormGroup className={"mb-3"} controlId={"name"}>
                                 <FormLabel className={"required"}>Full name</FormLabel>
-                                <FormControl type={"text"} value={value.name} placeholder={"John Doe"}
+                                <FormControl type={"text"} value={value.name} placeholder={"John Doe"} required
                                              readOnly={props.isEdit}
                                              onChange={(event => setValue({...value, name: event.target.value}))}/>
                             </FormGroup>
@@ -225,6 +247,6 @@ const EmployeeForm = (props) => {
             </Form>
         </div>
     )
-} 
+}
 
 export default EmployeeForm;

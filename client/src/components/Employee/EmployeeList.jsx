@@ -5,6 +5,8 @@ import EmployeeListItem from './EmployeeListItem';
 import SearchBar from '../Util/SearchBar';
 import {PagerButtons} from "../../util";
 import "./EmployeeList.css"
+import { AuthorizationError } from '../Util/errors';
+import { useHistory } from 'react-router';
 
 
 function EmployeesHeader() {
@@ -12,6 +14,8 @@ function EmployeesHeader() {
 }
 
 const EmployeeList = () => {
+    const history = useHistory()
+
     const [responseObj, setResponsObj] = useState({})
     const [employeeList, setEmployeeList] = useState([]);
     const [filteredEmployeeList, setFilteredEmployeeList] = useState([])
@@ -20,19 +24,27 @@ const EmployeeList = () => {
     const [maxPage, setMaxPage] = useState(0);
 
     const fetchEmployeeList = useCallback(async () => {
-        const employeeListObj = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
-            credentials: 'include',
-            mode: 'cors'
-        })
-            .then(res => res.json())
-            .catch(err => console.error(err))
+        try {
+            const response = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
+                credentials: 'include',
+                mode: 'cors'
+            })
+            
+            if (response.status !== 200) throw new AuthorizationError();
 
-        setMaxPage(employeeListObj.totalPages - 1)
-        setEmployeeList(employeeListObj.content)
-        setFilteredEmployeeList(employeeListObj.content)
+            const employeeListObj = await response.json()
 
-        setResponsObj(employeeListObj)
-    }, [page])
+            setMaxPage(employeeListObj.totalPages - 1)
+            setEmployeeList(employeeListObj.content)
+            setFilteredEmployeeList(employeeListObj.content)
+    
+            setResponsObj(employeeListObj)
+
+        } catch (err) {
+            console.error(err)
+            history.push('/?unauthorized')
+        }
+    }, [page, history])
 
     const filterEmployeeList = (searchValue) => {
         setFilteredEmployeeList(employeeList.filter(
@@ -52,7 +64,7 @@ const EmployeeList = () => {
     return (
         <>
             <EmployeesHeader/>
-            <PagerButtons page={page} page1={setPage} maxPage={maxPage}/>
+            <PagerButtons page={page} page1={setPage} maxPage={maxPage} />
             <div className="showText">Showing
                 users {parseInt((responseObj.size * responseObj.number) + 1)} - {parseInt((responseObj.size * responseObj.number) + responseObj.numberOfElements)} out
                 of {parseInt(responseObj.totalElements)}</div>
@@ -67,9 +79,9 @@ const EmployeeList = () => {
                     </thead>
                     <tbody>
                     {
-                        filteredEmployeeList ? 
-                        filteredEmployeeList.map((el, index) => 
-                            <EmployeeListItem data={el} index={index}/>
+                        filteredEmployeeList ?
+                        filteredEmployeeList.map((el, index) =>
+                            <EmployeeListItem data={el} index={index + page * 20}/>
                         ) : (
                             <tr>
                                 <td colSpan="2">No employees</td>
