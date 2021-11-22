@@ -7,22 +7,26 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+import LoginContext from './context/LoginContext';
 import ChangePassword from "./components/Employee/ChangePassword";
 import Header from "./components/Navigation/Header/Header";
 
 ReactDOM.render(
     <React.StrictMode>
-        <Router>
-            <Switch>
-                <Route path="/user/change-password/:userId">
-                    <Header/>
-                    <ChangePassword/>
-                </Route>
-                <Route path="/">
-                    <App/>
-                </Route>
-            </Switch>
-        </Router>
+        <LoginContext>
+            <Router>
+                <Switch>
+                    <Route path="/user/change-password/:userId">
+                        <Header/>
+                        <ChangePassword/>
+                    </Route>
+                    <Route path="/">
+                        <App/>
+                    </Route>
+                </Switch>
+            </Router>
+        </LoginContext>
     </React.StrictMode>,
     document.getElementById('root')
 );

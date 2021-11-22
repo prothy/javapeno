@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Container, Navbar} from "react-bootstrap";
+import React, {useContext, useState} from 'react';
+import {Container } from "react-bootstrap";
 
 import LoginButton from "../Login/LoginButton";
 import LoginModal from "../Login/LoginModal";
 import { ReactComponent as Logo } from "../../../images/jalapeno.svg"
+import { UserContext } from '../../../context/LoginContext';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Header.css"
+import UserBar from './UserBar';
 
 const Header = () => {
+    const [user, setUser] = useContext(UserContext)
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -24,8 +28,11 @@ const Header = () => {
                             <h1>ERP System</h1>
                             <Logo/>
                         </span>
-                        <span>
+                        <span>{
+                            !user.username ?  
                             <LoginButton handleShow={handleShow} />
+                            : <UserBar userState={[user, setUser]}/>
+                            }
                         </span>
                     </Container>
                 </nav>

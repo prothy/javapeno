@@ -9,7 +9,7 @@ import hidePwdImg from '../../images/hide-password.png';
 import {fetchDataGetIncludeCors, fetchJsonDataPostIncludeCors} from "../Util/fetchData";
 
 function ChangePasswordHeader() {
-    return <h4 id="changePasswordHeader">Change your password</h4>;
+    return <h4 id="changePasswordHeader">Change password</h4>;
 }
 
 let ChangePassword = () => {
