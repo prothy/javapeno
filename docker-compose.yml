@@ -9,7 +9,7 @@ services:
       context: .
     container_name: javapeno-erp-backend
     depends_on:
-      - db
+      - postgres_database
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
       - SPRING_DATASOURCE_USERNAME=compose-postgres
@@ -18,7 +18,7 @@ services:
 
   database:
     image: 'postgres:13.1-alpine'
-    container_name: db
+    container_name: postgres-database
     environment:
       - POSTGRES_USER=compose-postgres
       - POSTGRES_PASSWORD=compose-postgres
