@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  frontend:
+    image: javapeno-erp-frontend:latest
+    container_name: javapeno-erp-frontend
+    ports:
+      - '1337:80'
+    build:
+      context: .
