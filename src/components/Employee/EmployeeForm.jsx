@@ -18,6 +18,7 @@ function EmployeeFormHeader({isEdit}) {
 const EmployeeForm = (props) => {
     const addUserURL = process.env.REACT_APP_SERVER_URL + "/api/user/add";
     const updateUserURL = process.env.REACT_APP_SERVER_URL + "/api/user/update";
+    const [user,] = useContext(UserContext)
     const location = useLocation();
     const userData = location.state?.userData;
     const history = useHistory();
