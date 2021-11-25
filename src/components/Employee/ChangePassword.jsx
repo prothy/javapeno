@@ -13,8 +13,8 @@ function ChangePasswordHeader() {
 }
 
 let ChangePassword = () => {
-        const changeUserPasswordURL = "http://localhost:8080/api/user-authentication-service/first-password-change";
-        const getUserURL = "http://localhost:8080/api/user/";
+        const changeUserPasswordURL = process.env.REACT_APP_SERVER_URL + "/api/user-authentication-service/first-password-change";
+        const getUserURL = process.env.REACT_APP_SERVER_URL + "/api/user/";
         const regex = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
         const [userData, setData] = useState([]);
         const {userId} = useParams();

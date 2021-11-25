@@ -5,7 +5,7 @@ const UserBar = ({ userState }) => {
     const [user, setUser] = userState
 
     const logout = async () => {
-        await fetch('/api/logout', {
+        await fetch(process.env.REACT_APP_SERVER_URL + '/api/logout', {
             credentials: 'include'
         })
 

@@ -63,7 +63,7 @@ function ModifyButton() {
 
 let Employee = () => {
     let [userData, setData] = useState({});
-    let getUserURL = "http://localhost:8080/api/user/";
+    let getUserURL = process.env.REACT_APP_SERVER_URL + "/api/user/";
     const {userId} = useParams();
 
     useEffect(() => {

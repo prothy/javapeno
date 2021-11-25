@@ -25,7 +25,7 @@ const EmployeeList = () => {
 
     const fetchEmployeeList = useCallback(async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/user/all?page=${page}`, {
+            const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/user/all?page=${page}`, {
                 credentials: 'include',
                 mode: 'cors'
             })
