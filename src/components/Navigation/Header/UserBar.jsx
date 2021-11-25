@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 
 const UserBar = ({ userState }) => {
+    const history = useHistory()
     const [user, setUser] = userState
 
     const logout = async () => {
@@ -14,6 +15,8 @@ const UserBar = ({ userState }) => {
             username: '',
             userId: ''
         }))
+
+        history.push('/');
     }
 
     return (

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Table} from "react-bootstrap";
 import Transaction from './Transaction/Transaction';
 import DayPicker from "./DayPicker";
@@ -8,6 +8,7 @@ import {PagerButtons} from "../../util";
 import { useHistory } from 'react-router';
 
 import { AuthorizationError } from '../Util/errors';
+import {UserContext} from "../../context/LoginContext";
 
 function TransactionsHeader() {
     return <h4 id="transactionsHeader">User's transactions</h4>;
@@ -42,6 +43,7 @@ TransactionsTableBody.propTypes = {
 };
 
 const Transactions = () => {
+    const [user, setUser] = useContext(UserContext);
     const history = useHistory()
 
     const [transactions, setTransactions] = useState([]);
@@ -83,7 +85,7 @@ const Transactions = () => {
 
     useEffect(() => {
         validateAuthorization();
-        
+
         const pageNum = window.location.search ? new URLSearchParams(window.location.search).get('page') : 0;
         setPage(parseInt(pageNum));
         let userId = "8cb3a14a-e68e-f902-badb-3e9877e6b330";
