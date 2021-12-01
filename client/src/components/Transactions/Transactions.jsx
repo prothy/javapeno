@@ -73,7 +73,7 @@ const Transactions = () => {
 
     const validateAuthorization = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/transaction', {
+            const response = await fetch(process.env.REACT_APP_SERVER_URL + '/api/transaction', {
                 credentials: 'include'
             })
             if (response.status === 403) throw new AuthorizationError()
@@ -89,9 +89,9 @@ const Transactions = () => {
         const pageNum = window.location.search ? new URLSearchParams(window.location.search).get('page') : 0;
         setPage(parseInt(pageNum));
         let userId = "8cb3a14a-e68e-f902-badb-3e9877e6b330";
-        let url = "http://localhost:8080/api/transaction/all?userId=" + user.userId;
+        let url = process.env.REACT_APP_SERVER_URL + "/api/transaction/all?userId=" + userId;
         if (fromDate !== "" && toDate !== "") {
-            url = "http://localhost:8080/api/transaction/report?userId=" +
+            url = process.env.REACT_APP_SERVER_URL + "/api/transaction/report?userId=" +
                 userId + "&dateFrom=" + fromDate + "&dateTo=" + toDate + "";
         }
         url += `&page=${page}`;

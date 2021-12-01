@@ -18,7 +18,7 @@ function LoginModal({ show, handleClose, error }) {
     const [errorMessage, setErrorMessage] = useState(error ? error : '');
 
     const getUserInfo = async () => {
-        const response = await fetch('http://localhost:8080/api/auth-service/current-user', {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL + '/api/auth-service/current-user', {
             credentials: 'include'
         })
 
@@ -30,7 +30,7 @@ function LoginModal({ show, handleClose, error }) {
     const loginUser = async (ev) => {
         ev.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/api/login', {
+            const response = await fetch(process.env.REACT_APP_SERVER_URL + '/api/login', {
                 method: 'post',
                 credentials: 'include',
                 headers: {
